@@ -30,6 +30,9 @@
     
     SKSpriteNode *myBackGround;
     SKSpriteNode *myFrontGround;
+    
+    //test code
+    BOOL isDoTwice;
 }
 
 
@@ -44,6 +47,9 @@
     
     myFrontGroundTotal = 2;// 循环地面
     myFrontGroundVelocity = -150;
+    
+    //test code
+    isDoTwice = NO;
     
     [self mySetBackGround];
     [self mySetFrontGround];
@@ -82,6 +88,38 @@
         [myWorldNode addChild:myFrontGround];
         NSLog(@"第%d个前地面Set",i);
     }
+    
+    
+//    //test code
+//    for (int i = 0; i < myFrontGroundTotal; i++) {
+//        if (i == 1) {
+//            myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
+//            
+//            myFrontGround.anchorPoint = CGPointMake(0, 1.0);
+//            //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
+//            myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
+//            myFrontGround.zPosition = 1;
+//            myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
+//            myFrontGround.name = @"前地面";
+//            myFrontGround.alpha = 0.5;
+//            [myWorldNode addChild:myFrontGround];
+//            NSLog(@"第%d个前地面Set",i);
+//        } else {
+//            myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
+//            
+//            myFrontGround.anchorPoint = CGPointMake(0, 1.0);
+//            //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
+//            myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
+//            myFrontGround.zPosition = 1;
+//            myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
+//            myFrontGround.name = @"前地面";
+//            [myWorldNode addChild:myFrontGround];
+//            NSLog(@"第%d个前地面Set",i);
+//        }
+//        
+//    }
+//    //end test
+    
 
 }
 
@@ -138,25 +176,24 @@
     
     [myWorldNode enumerateChildNodesWithName:@"前地面" usingBlock:^(SKNode *node, BOOL *stop) {
         
-        if ([node.name  isEqual: @"前地面"]) {
+        if ([node.name isEqual: @"前地面"]) {
             CGPoint myNewFrontGroundVelocity = CGPointMake(myFrontGroundVelocity, 0);
-            
-            
             node.position = CGPointMake(node.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, node.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
             
+            
 //            myFrontGround.position = CGPointMake(myFrontGround.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, myFrontGround.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
+            NSLog(@"FrontGround:%f",myFrontGround.position.x);
             
-            NSLog(@"%f",myFrontGround.position.x);
+//            NSLog(@"%f",myFrontGround.position.x);
             
-            
-            
-            if (myFrontGround.position.x < - myFrontGround.size.width) {
-                myFrontGround.position = CGPointMake(myFrontGround.position.x + myFrontGround.size.width * myFrontGroundTotal, myFrontGround.position.y + 0);
-
-                
-                NSLog(@"Test!!!");
+//            if (myFrontGround.position.x < - myFrontGround.size.width) {
+//                myFrontGround.position = CGPointMake(myFrontGround.position.x + myFrontGround.size.width * myFrontGroundTotal, myFrontGround.position.y + 0);
+//            }
+            if (node.position.x < - myFrontGround.size.width) {
+                node.position = CGPointMake(node.position.x + myFrontGround.size.width * myFrontGroundTotal, node.position.y + 0);
             }
-        
+            
+         
         }
         
 //        NSLog(@"BLOCK: %@", [node name]);
