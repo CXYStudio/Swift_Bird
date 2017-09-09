@@ -7,76 +7,159 @@
 //
 
 #import "GameScene.h"
+//typedef enum _myCoverage{
+//    myBackGround,
+//    myFrontGround,
+//    myGameCharacter
+//}myCoverage;
 
 @implementation GameScene {
-    SKShapeNode *_spinnyNode;
-    SKLabelNode *_label;
+    
+    SKNode *myWorldNode;
+    CGFloat myGameStartPoint;
+    CGFloat myGameRegionHeight;
+    SKSpriteNode *myGameCharacter;
+    NSTimeInterval myLastUpdateTime;
+    NSTimeInterval myElapsedTime;
+    CGFloat myGravity;//重力
+    CGFloat myFly;//点击之后上飞
+    CGPoint myVelocity;//速度
+    
+    CGFloat myFrontGroundTotal;
+    CGFloat myFrontGroundVelocity;
+    
+    SKSpriteNode *myBackGround;
+    SKSpriteNode *myFrontGround;
 }
+
 
 - (void)didMoveToView:(SKView *)view {
-    // Setup your scene here
+    // Setup scene 设置场景
+    myWorldNode = [[SKNode alloc]init];
+    [self addChild:myWorldNode];
     
-    // Get label node from scene and store it for use later
-    _label = (SKLabelNode *)[self childNodeWithName:@"//helloLabel"];
+    myGravity = -1000;
+    myFly = 500;
+    myVelocity = CGPointZero;
     
-    _label.alpha = 0.0;
-    [_label runAction:[SKAction fadeInWithDuration:2.0]];
+    myFrontGroundTotal = 2;// 循环地面
+    myFrontGroundVelocity = -150;
     
-    CGFloat w = (self.size.width + self.size.height) * 0.05;
+    [self mySetBackGround];
+    [self mySetFrontGround];
+    [self mySetGameCharacter];
     
-    // Create shape node to use during mouse interaction
-    _spinnyNode = [SKShapeNode shapeNodeWithRectOfSize:CGSizeMake(w, w) cornerRadius:w * 0.3];
-    _spinnyNode.lineWidth = 2.5;
     
-    [_spinnyNode runAction:[SKAction repeatActionForever:[SKAction rotateByAngle:M_PI duration:1]]];
-    [_spinnyNode runAction:[SKAction sequence:@[
-                                                [SKAction waitForDuration:0.5],
-                                                [SKAction fadeOutWithDuration:0.5],
-                                                [SKAction removeFromParent],
-                                                ]]];
 }
 
-
-- (void)touchDownAtPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
-    n.position = pos;
-    n.strokeColor = [SKColor greenColor];
-    [self addChild:n];
+#pragma mark 设置的相关方法
+- (void)mySetBackGround{
+    
+    myBackGround = [[SKSpriteNode alloc]initWithImageNamed:@"Background"];
+    
+    myBackGround.anchorPoint = CGPointMake(0.5, 1.0);
+    myBackGround.position = CGPointMake(self.size.width/2, self.size.height);
+    myBackGround.zPosition = 0;
+    myBackGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.7);
+    
+    [myWorldNode addChild:myBackGround];
+    
+    myGameStartPoint = self.view.frame.size.height - myBackGround.size.height;
+    myGameRegionHeight = myBackGround.size.height;
 }
 
-- (void)touchMovedToPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
-    n.position = pos;
-    n.strokeColor = [SKColor blueColor];
-    [self addChild:n];
+- (void)mySetFrontGround{
+
+    for (int i = 0; i < myFrontGroundTotal; i++) {
+        myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
+        
+        myFrontGround.anchorPoint = CGPointMake(0, 1.0);
+//        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
+        myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
+        myFrontGround.zPosition = 1;
+        myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
+        myFrontGround.name = @"前地面";
+        [myWorldNode addChild:myFrontGround];
+        NSLog(@"第%d个前地面Set",i);
+    }
+
 }
 
-- (void)touchUpAtPoint:(CGPoint)pos {
-    SKShapeNode *n = [_spinnyNode copy];
-    n.position = pos;
-    n.strokeColor = [SKColor redColor];
-    [self addChild:n];
+- (void)mySetGameCharacter{
+    myGameCharacter = [[SKSpriteNode alloc]initWithImageNamed:@"Bird0"];
+    myGameCharacter.position = CGPointMake(self.view.frame.size.width*0.2, myGameRegionHeight*0.4 + myGameStartPoint);
+    myGameCharacter.zPosition = 2;
+    
+    [self addChild:myGameCharacter];
+    
+}
+
+#pragma mark 游戏事件
+- (void)myGameCharacterFly{
+    
+    myVelocity = CGPointMake(0, myFly);
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    // Run 'Pulse' action from 'Actions.sks'
-    [_label runAction:[SKAction actionNamed:@"Pulse"] withKey:@"fadeInOut"];
     
-    for (UITouch *t in touches) {[self touchDownAtPoint:[t locationInNode:self]];}
-}
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
-    for (UITouch *t in touches) {[self touchMovedToPoint:[t locationInNode:self]];}
-}
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UITouch *t in touches) {[self touchUpAtPoint:[t locationInNode:self]];}
-}
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-    for (UITouch *t in touches) {[self touchUpAtPoint:[t locationInNode:self]];}
+    [self myGameCharacterFly];
+    
+    
 }
 
+#pragma mark 更新的相关方法
 
 -(void)update:(CFTimeInterval)currentTime {
     // Called before each frame is rendered
-}
+    if (myLastUpdateTime > 0) {
+        myElapsedTime = currentTime - myLastUpdateTime;
+    } else {
+        myElapsedTime = 0;
+    }
+    myLastUpdateTime = currentTime;
+    
+    [self myUpdateGameCharacter];
+    [self myUpdateFrontGround];
 
+}
+-(void)myUpdateGameCharacter{
+    CGPoint kAcceleratedVelocity = CGPointMake(0, myGravity);
+    myVelocity = CGPointMake(myVelocity.x + kAcceleratedVelocity.x * (CGFloat) myElapsedTime, myVelocity.y + kAcceleratedVelocity.y * (CGFloat) myElapsedTime);
+    
+    myGameCharacter.position = CGPointMake(myGameCharacter.position.x + myVelocity.x * (CGFloat) myElapsedTime, myGameCharacter.position.y + myVelocity.y * (CGFloat) myElapsedTime);
+    
+    //Ground
+    if (myGameCharacter.position.y - myGameCharacter.size.height/2 < myGameStartPoint) {
+        myGameCharacter.position = CGPointMake(myGameCharacter.position.x, myGameStartPoint + myGameCharacter.size.height/2);
+    }
+    
+}
+-(void)myUpdateFrontGround{
+    
+    [myWorldNode enumerateChildNodesWithName:@"前地面" usingBlock:^(SKNode *node, BOOL *stop) {
+        
+        if ([node.name  isEqual: @"前地面"]) {
+            CGPoint myNewFrontGroundVelocity = CGPointMake(myFrontGroundVelocity, 0);
+            
+            
+            node.position = CGPointMake(node.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, node.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
+            
+            NSLog(@"%f",node.position.x);
+            
+            
+            
+            if (node.position.x < -320) {
+//                node.position = CGPointMake(self.view.frame.size.width * myFrontGroundTotal, 0);
+                node.position = CGPointMake(self.view.frame.size.width, 0);
+                NSLog(@"Test!!!");
+            }
+            
+            
+        }
+        
+//        NSLog(@"BLOCK: %@", [node name]);
+     
+    }];
+    
+}
 @end
