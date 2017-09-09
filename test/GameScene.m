@@ -144,17 +144,19 @@
             
             node.position = CGPointMake(node.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, node.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
             
-            NSLog(@"%f",node.position.x);
+//            myFrontGround.position = CGPointMake(myFrontGround.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, myFrontGround.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
+            
+            NSLog(@"%f",myFrontGround.position.x);
             
             
             
-            if (node.position.x < -320) {
-//                node.position = CGPointMake(self.view.frame.size.width * myFrontGroundTotal, 0);
-                node.position = CGPointMake(self.view.frame.size.width, 0);
+            if (myFrontGround.position.x < - myFrontGround.size.width) {
+                myFrontGround.position = CGPointMake(myFrontGround.position.x + myFrontGround.size.width * myFrontGroundTotal, myFrontGround.position.y + 0);
+
+                
                 NSLog(@"Test!!!");
             }
-            
-            
+        
         }
         
 //        NSLog(@"BLOCK: %@", [node name]);
