@@ -68,7 +68,7 @@
     
     //生成障碍延迟时间
     myFirstTimeGenerateObstacle = 1.65;
-    myTimeGenerateObstacle = 1.5;
+    myTimeGenerateObstacle = 1.75;
     
     [self mySetBackGround];
     [self mySetFrontGround];
@@ -175,10 +175,10 @@
     float myCoefficient = 0.0;
     switch (myRandomValue) {
         case 1:
-            myCoefficient = 0.1;
+            myCoefficient = 0.2;
             break;
         case 2:
-            myCoefficient = 0.2;
+            myCoefficient = 0.25;
             break;
         case 3:
             myCoefficient = 0.3;
