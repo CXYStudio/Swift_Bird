@@ -470,9 +470,11 @@
             [self myUpdateGameCharacter];
             [self myUpdateFrontGround];
             [self myHitObstacleCheck];
+            [self myHitFrontGroundCheck];
             break;
         case 3:                 //myFall
             [self myUpdateGameCharacter];
+            [self myHitFrontGroundCheck];
             break;
         case 4:                 //myDisplayScore
             
@@ -534,6 +536,15 @@
         [self mySwitchToFall];
     }
 }
+- (void)myHitFrontGroundCheck{
+    if (myHitFrontGround) {
+        myHitFrontGround = NO;
+        myVelocity = CGPointZero;
+        myGameCharacter.zRotation = DEGREES_TO_RADIANS(-90);
+        myGameCharacter.position = CGPointMake(myGameCharacter.position.x, myGameStartPoint + myGameCharacter.size.width/2);
+        
+    }
+}
 #pragma mark 游戏状态
 - (void)mySwitchToFall{
     myCurrentGameState = myFall;
@@ -546,8 +557,13 @@
     
     [self myStopGenerateObstacle];
     
+    [self mySwitchToDisplayScore];
     
-    
+}
+- (void)mySwitchToDisplayScore{
+    myCurrentGameState = myDisplayScore;
+    [myGameCharacter removeAllActions];
+    [self myStopGenerateObstacle];
 }
 - (void)didBeginContact:(SKPhysicsContact *)contact{
     
