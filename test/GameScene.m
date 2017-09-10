@@ -23,12 +23,11 @@
 //    UInt32 physicsGameCharacter;
 //    UInt32 physicsObstacle;
 //    UInt32 physicsFrontGround;
-//    
-//    
+
 //};
 
+
 @implementation GameScene {
-    
     SKNode *myWorldNode;
     CGFloat myGameStartPoint;
     CGFloat myGameRegionHeight;
@@ -62,12 +61,32 @@
     UInt32 physicsGameCharacter;
     UInt32 physicsObstacle;
     UInt32 physicsFrontGround;
+    
+    //BOOL
+    BOOL myHitFrontGround;
+    BOOL myHitObstacle;
+    
+    //游戏状态
+    CGFloat myMainMenu;
+    CGFloat myTutorial;
+    CGFloat myGame;
+    CGFloat myFall;
+    CGFloat myDisplayScore;
+    CGFloat myEndGame;
+    
+    CGFloat myCurrentGameState;
+    
+    //游戏音效
+    SKAction *mySoundFall;
 }
 
 
 - (void)didMoveToView:(SKView *)view {
     //关闭重力
     self.physicsWorld.gravity = CGVectorMake(0, 0);
+    //代理
+    self.physicsWorld.contactDelegate = self;
+    
     
     // Setup scene 设置场景
     myWorldNode = [[SKNode alloc]init];
@@ -95,6 +114,24 @@
     physicsGameCharacter = 0b1;     //1
     physicsObstacle = 0b10;         //2
     physicsFrontGround = 0b100;     //4
+    
+    myHitFrontGround = NO;
+    myHitObstacle = NO;
+    
+    //游戏状态
+    myMainMenu = 0;
+    myTutorial = 1;
+    myGame = 2;
+    myFall = 3;
+    myDisplayScore =4;
+    myEndGame = 5;
+    
+    myCurrentGameState = 2;
+    
+    //游戏音效
+    mySoundFall = [SKAction playSoundFileNamed:@"falling.wav" waitForCompletion:NO];
+
+    
     
     [self mySetBackGround];
     [self mySetFrontGround];
@@ -300,6 +337,7 @@
 //    CGFloat myYMax = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myMaximumCoefficient;
     CGFloat myY = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myCoefficient;
     myBottom.position = CGPointMake(myStartXCoordinate, myY);
+    myBottom.name = @"底部障碍";
     [myWorldNode addChild:myBottom];
     
     
@@ -307,6 +345,7 @@
     SKSpriteNode *myTop = [self myCreateObstacle:@"Top"];
     myTop.zRotation = DEGREES_TO_RADIANS(180);
     myTop.position = CGPointMake(myStartXCoordinate, myBottom.position.y + myBottom.size.height/2 + myTop.size.height/2 + myGameCharacter.size.height * myGapCoefficient);
+    myTop.name = @"顶部障碍";
     [myWorldNode addChild:myTop];
     
     //Move
@@ -336,7 +375,21 @@
     SKAction *myInfiniteGenerate = [SKAction repeatActionForever:myRegenerateObstacleSequence];
     SKAction *myAllGenerateObstacleSequence = [SKAction sequence:@[myFirst,myInfiniteGenerate]];
     
-    [self runAction:myAllGenerateObstacleSequence];
+    [self runAction:myAllGenerateObstacleSequence withKey:@"重生"];
+}
+
+- (void)myStopGenerateObstacle{
+    [self removeActionForKey:@"重生"];
+    
+    [myWorldNode enumerateChildNodesWithName:@"底部障碍" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node removeAllActions];
+    }];
+    
+    [myWorldNode enumerateChildNodesWithName:@"顶部障碍" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node removeAllActions];
+    }];
+    
+    
 }
 
 //myGameCharacter & myGameCharacterHat 飞一下效果
@@ -380,6 +433,8 @@
     
     [self myUpdateGameCharacter];
     [self myUpdateFrontGround];
+    
+    [self myHitObstacleCheck];
 
 }
 -(void)myUpdateGameCharacter{
@@ -420,6 +475,56 @@
      
     }];
     
+    
+}
+- (void)myHitObstacleCheck{
+    if (myHitObstacle == YES) {
+        myHitObstacle = NO;
+        //切换到跌落状态
+        [self mySwitchToFall];
+    }
+}
+#pragma mark 游戏状态
+- (void)mySwitchToFall{
+    myCurrentGameState = myFall;
+    SKAction *myWait = [SKAction waitForDuration:0.1];
+    SKAction *myFallSequence = [SKAction sequence:@[mySoundFall,myWait]];
+    
+    [self runAction:myFallSequence];
+    
+    [myGameCharacter removeAllActions];
+    
+    [self myStopGenerateObstacle];
+    
+    
+    
+}
+- (void)didBeginContact:(SKPhysicsContact *)contact{
+    
+    SKPhysicsBody *myBeHitObj = [[SKPhysicsBody alloc]init];
+    
+//    NSLog(@"contact.bodyA.contactTestBitMask:%u",contact.bodyA.contactTestBitMask);
+//    NSLog(@"contact.bodyB.contactTestBitMask:%u",contact.bodyB.contactTestBitMask);
+//    
+//    NSLog(@"contact.bodyA.categoryBitMask:%u",contact.bodyA.categoryBitMask);
+//    NSLog(@"contact.bodyB.categoryBitMask:%u",contact.bodyB.categoryBitMask);
+    
+    if (contact.bodyA.contactTestBitMask == physicsGameCharacter) {
+        myBeHitObj =  contact.bodyA;
+        
+    } else {
+        myBeHitObj =  contact.bodyB;
+    }
+//    NSLog(@"myBeHitObj.categoryBitMask:%u",myBeHitObj.categoryBitMask);
+    if (myBeHitObj.categoryBitMask == physicsFrontGround) {
+        myHitFrontGround = YES;
+        NSLog(@"撞击地面");
+    }
+    if (myBeHitObj.categoryBitMask == physicsObstacle) {
+        myHitObstacle = YES;
+        NSLog(@"撞击障碍");
+    }
+
     
 }
 @end
