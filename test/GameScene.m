@@ -18,6 +18,15 @@
 //    myGameCharacterHat,
 //}myCoverage;
 
+//struct myPhysics {
+//    UInt32 physicsNone;
+//    UInt32 physicsGameCharacter;
+//    UInt32 physicsObstacle;
+//    UInt32 physicsFrontGround;
+//    
+//    
+//};
+
 @implementation GameScene {
     
     SKNode *myWorldNode;
@@ -47,10 +56,19 @@
     //生成障碍延迟时间
     NSTimeInterval myFirstTimeGenerateObstacle;
     NSTimeInterval myTimeGenerateObstacle;
+    
+    //physics
+    UInt32 physicsNone;
+    UInt32 physicsGameCharacter;
+    UInt32 physicsObstacle;
+    UInt32 physicsFrontGround;
 }
 
 
 - (void)didMoveToView:(SKView *)view {
+    //关闭重力
+    self.physicsWorld.gravity = CGVectorMake(0, 0);
+    
     // Setup scene 设置场景
     myWorldNode = [[SKNode alloc]init];
     [self addChild:myWorldNode];
@@ -71,6 +89,12 @@
     //生成障碍延迟时间
     myFirstTimeGenerateObstacle = 1.65;
     myTimeGenerateObstacle = 1.75;
+    
+    //physics
+    physicsNone = 0;                //0
+    physicsGameCharacter = 0b1;     //1
+    physicsObstacle = 0b10;         //2
+    physicsFrontGround = 0b100;     //4
     
     [self mySetBackGround];
     [self mySetFrontGround];
@@ -99,6 +123,15 @@
     
     myGameStartPoint = self.view.frame.size.height - myBackGround.size.height;
     myGameRegionHeight = myBackGround.size.height;
+    
+    CGPoint myLeftX = CGPointMake(0, myGameStartPoint);
+    CGPoint myRightX = CGPointMake(self.size.width, myGameStartPoint);
+    
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeFromPoint:myLeftX toPoint:myRightX];
+    self.physicsBody.categoryBitMask = physicsFrontGround;
+    self.physicsBody.collisionBitMask = 0;
+    self.physicsBody.contactTestBitMask = physicsGameCharacter;
+    
 }
 
 - (void)mySetFrontGround{
@@ -155,6 +188,40 @@
     myGameCharacter.position = CGPointMake(self.view.frame.size.width*0.2, myGameRegionHeight*0.4 + myGameStartPoint);
     myGameCharacter.zPosition = 3;
     
+    //
+    CGFloat offsetX = myGameCharacter.frame.size.width * myGameCharacter.anchorPoint.x;
+    CGFloat offsetY = myGameCharacter.frame.size.height * myGameCharacter.anchorPoint.y;
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    CGPathMoveToPoint(path, NULL, 3 - offsetX, 16 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 19 - offsetX, 24 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 26 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 37 - offsetX, 25 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 20 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 15 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 39 - offsetX, 10 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 6 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 36 - offsetX, 3 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 30 - offsetX, 1 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 21 - offsetX, 0 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 15 - offsetX, 0 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 9 - offsetX, 0 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 5 - offsetX, 0 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 2 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 7 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 1 - offsetX, 11 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 14 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 27 - offsetX, 28 - offsetY);
+    
+    CGPathCloseSubpath(path);
+    
+    myGameCharacter.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
+    myGameCharacter.physicsBody.categoryBitMask = physicsGameCharacter;
+    myGameCharacter.physicsBody.collisionBitMask = 0;
+    myGameCharacter.physicsBody.contactTestBitMask = physicsObstacle | physicsFrontGround;
+    
+    
     [myWorldNode addChild:myGameCharacter];
     
 }
@@ -170,6 +237,28 @@
 - (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{//创建障碍物
     SKSpriteNode *myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
     myObstacle.zPosition = 1;
+    
+    CGFloat offsetX = myObstacle.frame.size.width * myObstacle.anchorPoint.x;
+    CGFloat offsetY = myObstacle.frame.size.height * myObstacle.anchorPoint.y;
+    
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    CGPathMoveToPoint(path, NULL, 1 - offsetX, 1 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 3 - offsetX, 312 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 9 - offsetX, 314 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 25 - offsetX, 314 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 37 - offsetX, 314 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 45 - offsetX, 313 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 49 - offsetX, 310 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 50 - offsetX, 307 - offsetY);
+    CGPathAddLineToPoint(path, NULL, 50 - offsetX, 1 - offsetY);
+    
+    CGPathCloseSubpath(path);
+    
+    myObstacle.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
+    myObstacle.physicsBody.categoryBitMask = physicsObstacle;
+    myObstacle.physicsBody.collisionBitMask = 0;
+    myObstacle.physicsBody.contactTestBitMask = physicsGameCharacter;
     return myObstacle;
 }
 
