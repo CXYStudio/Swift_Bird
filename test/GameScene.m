@@ -15,6 +15,7 @@
 //    myObstacle,
 //    myFrontGround,
 //    myGameCharacter
+//    myGameCharacterHat,
 //}myCoverage;
 
 @implementation GameScene {
@@ -23,6 +24,7 @@
     CGFloat myGameStartPoint;
     CGFloat myGameRegionHeight;
     SKSpriteNode *myGameCharacter;
+    SKSpriteNode *myGameCharacterHat;
     NSTimeInterval myLastUpdateTime;
     NSTimeInterval myElapsedTime;
     CGFloat myGravity;//重力
@@ -74,6 +76,7 @@
     [self mySetFrontGround];
     [self mySetGameCharacter];
     [self myInfiniteGenerateObstacle];
+    [self mySetGameCharacterHat];
     
     //test code
 //    int myRandomValue = arc4random()% 6 + 1;
@@ -152,8 +155,15 @@
     myGameCharacter.position = CGPointMake(self.view.frame.size.width*0.2, myGameRegionHeight*0.4 + myGameStartPoint);
     myGameCharacter.zPosition = 3;
     
-    [self addChild:myGameCharacter];
+    [myWorldNode addChild:myGameCharacter];
     
+}
+
+- (void)mySetGameCharacterHat{
+    myGameCharacterHat = [[SKSpriteNode alloc]initWithImageNamed:@"Hat"];
+    myGameCharacterHat.position = CGPointMake(myGameCharacter.size.width/4, myGameCharacter.size.height/2);
+    myGameCharacterHat.zPosition = 4;
+    [myGameCharacter addChild:myGameCharacterHat];
 }
 
 #pragma mark 游戏事件
@@ -239,15 +249,32 @@
     
     [self runAction:myAllGenerateObstacleSequence];
 }
+
+//myGameCharacter & myGameCharacterHat 飞一下效果
 - (void)myGameCharacterFly{
     
     myVelocity = CGPointMake(0, myFly);
+    
 }
+- (void)myGameCharacterHatFly{
+    
+    SKAction *myUpMove = [SKAction moveByX:0 y:18 duration:0.15];
+    [myUpMove setTimingMode:SKActionTimingEaseInEaseOut];
+    SKAction *myDownMove = [myUpMove reversedAction];
+    SKAction *myAllHatFly = [SKAction sequence:@[myUpMove, myDownMove]];
+    
+    [myGameCharacterHat runAction:myAllHatFly];
+    
+}
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
+    //点击屏幕，GameCharacter向上飞
     [self myGameCharacterFly];
     
+    //帽子飞一下的效果
+    [self myGameCharacterHatFly];
     
 }
 
@@ -298,14 +325,12 @@
 //            if (myFrontGround.position.x < - myFrontGround.size.width) {
 //                myFrontGround.position = CGPointMake(myFrontGround.position.x + myFrontGround.size.width * myFrontGroundTotal, myFrontGround.position.y + 0);
 //            }
-            
-            
-         
         }
         
 //        NSLog(@"BLOCK: %@", [node name]);
      
     }];
+    
     
 }
 @end
