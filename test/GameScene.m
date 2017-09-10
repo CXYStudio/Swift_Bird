@@ -67,14 +67,14 @@
     BOOL myHitObstacle;
     
     //游戏状态
-    CGFloat myMainMenu;
-    CGFloat myTutorial;
-    CGFloat myGame;
-    CGFloat myFall;
-    CGFloat myDisplayScore;
-    CGFloat myEndGame;
+    int myMainMenu;
+    int myTutorial;
+    int myGame;
+    int myFall;
+    int myDisplayScore;
+    int myEndGame;
     
-    CGFloat myCurrentGameState;
+    int myCurrentGameState;
     
     //游戏音效
     SKAction *mySoundFall;
@@ -397,7 +397,11 @@
     
     myVelocity = CGPointMake(0, myFly);
     
+    //帽子飞一下的效果
+    [self myGameCharacterHatFly];
+    
 }
+//帽子飞一下
 - (void)myGameCharacterHatFly{
     
     SKAction *myUpMove = [SKAction moveByX:0 y:18 duration:0.15];
@@ -412,11 +416,35 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    //点击屏幕，GameCharacter向上飞
-    [self myGameCharacterFly];
+    //根据游戏Status
+    switch (myCurrentGameState) {
+        case 0:                 //myMainMenu
+            
+            break;
+        case 1:                 //myTutorial
+            
+            break;
+        case 2:                 //myGame
+            //点击屏幕，GameCharacter向上飞
+            [self myGameCharacterFly];
+            break;
+        case 3:                 //myFall
+            
+            break;
+        case 4:                 //myDisplayScore
+            
+            break;
+        case 5:                 //myEndGame
+            
+            break;
+            
+        default:
+            break;
+    }
     
-    //帽子飞一下的效果
-    [self myGameCharacterHatFly];
+    
+    
+    
     
 }
 
@@ -431,10 +459,32 @@
     }
     myLastUpdateTime = currentTime;
     
-    [self myUpdateGameCharacter];
-    [self myUpdateFrontGround];
+    switch (myCurrentGameState) {
+        case 0:                 //myMainMenu
+            
+            break;
+        case 1:                 //myTutorial
+            
+            break;
+        case 2:                 //myGame
+            [self myUpdateGameCharacter];
+            [self myUpdateFrontGround];
+            [self myHitObstacleCheck];
+            break;
+        case 3:                 //myFall
+            [self myUpdateGameCharacter];
+            break;
+        case 4:                 //myDisplayScore
+            
+            break;
+        case 5:                 //myEndGame
+            
+            break;
+            
+        default:
+            break;
+    }
     
-    [self myHitObstacleCheck];
 
 }
 -(void)myUpdateGameCharacter{
