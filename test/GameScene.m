@@ -92,7 +92,7 @@
     myWorldNode = [[SKNode alloc]init];
     [self addChild:myWorldNode];
     
-    myGravity = -1000;
+    myGravity = -800;
     myFly = 500;
     myVelocity = CGPointZero;
     
@@ -432,7 +432,7 @@
             
             break;
         case 4:                 //myDisplayScore
-            
+            [self mySwitchToNewGame];
             break;
         case 5:                 //myEndGame
             
@@ -534,6 +534,7 @@
         myHitObstacle = NO;
         //切换到跌落状态
         [self mySwitchToFall];
+    
     }
 }
 - (void)myHitFrontGroundCheck{
@@ -543,6 +544,8 @@
         myGameCharacter.zRotation = DEGREES_TO_RADIANS(-90);
         myGameCharacter.position = CGPointMake(myGameCharacter.position.x, myGameStartPoint + myGameCharacter.size.width/2);
         
+        [self mySwitchToDisplayScore];
+        
     }
 }
 #pragma mark 游戏状态
@@ -551,19 +554,28 @@
     SKAction *myWait = [SKAction waitForDuration:0.1];
     SKAction *myFallSequence = [SKAction sequence:@[mySoundFall,myWait]];
     
-    [self runAction:myFallSequence];
+    [myGameCharacter runAction:myFallSequence];
     
     [myGameCharacter removeAllActions];
     
     [self myStopGenerateObstacle];
     
-    [self mySwitchToDisplayScore];
+//    [self mySwitchToDisplayScore];
     
 }
 - (void)mySwitchToDisplayScore{
     myCurrentGameState = myDisplayScore;
     [myGameCharacter removeAllActions];
     [self myStopGenerateObstacle];
+}
+- (void)mySwitchToNewGame{
+    //添加音效
+    
+    //
+    GameScene *myNewGame = [[GameScene alloc]initWithSize:self.size];
+    SKTransition *mySwitchToNewGameEffects = [SKTransition fadeWithColor:[SKColor blackColor] duration:0.1];
+    [self.view presentScene:myNewGame transition:mySwitchToNewGameEffects];
+    
 }
 - (void)didBeginContact:(SKPhysicsContact *)contact{
     
