@@ -35,6 +35,9 @@
     SKSpriteNode *myGameCharacterHat;
     NSTimeInterval myLastUpdateTime;
     NSTimeInterval myElapsedTime;
+    NSTimeInterval myCurrentTime;
+    
+    
     CGFloat myGravity;//重力
     CGFloat myFly;//点击之后上飞
     CGPoint myVelocity;//速度
@@ -152,10 +155,7 @@
     [self mySetGameCharacterHat];
     [self mySetScoreLabel];
     
-    //test code
-//    int myRandomValue = arc4random()% 6 + 1;
-//    NSLog(@"%d",myRandomValue);
-//    
+    
     
 }
 
@@ -198,38 +198,6 @@
         [myWorldNode addChild:myFrontGround];
         NSLog(@"第%d个前地面Set",i);
     }
-    
-    
-//    //test code
-//    for (int i = 0; i < myFrontGroundTotal; i++) {
-//        if (i == 1) {
-//            myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
-//            
-//            myFrontGround.anchorPoint = CGPointMake(0, 1.0);
-//            //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
-//            myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
-//            myFrontGround.zPosition = 1;
-//            myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
-//            myFrontGround.name = @"前地面";
-//            myFrontGround.alpha = 0.5;
-//            [myWorldNode addChild:myFrontGround];
-//            NSLog(@"第%d个前地面Set",i);
-//        } else {
-//            myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
-//            
-//            myFrontGround.anchorPoint = CGPointMake(0, 1.0);
-//            //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
-//            myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
-//            myFrontGround.zPosition = 1;
-//            myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
-//            myFrontGround.name = @"前地面";
-//            [myWorldNode addChild:myFrontGround];
-//            NSLog(@"第%d个前地面Set",i);
-//        }
-//        
-//    }
-//    //end test
-    
 
 }
 
@@ -437,7 +405,6 @@
     
 }
 
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     //根据游戏Status
@@ -465,16 +432,12 @@
         default:
             break;
     }
-    
-    
-    
-    
-    
 }
 
 #pragma mark 更新的相关方法
 
 -(void)update:(CFTimeInterval)currentTime {
+    myCurrentTime = currentTime;//给updateScore用
     // Called before each frame is rendered
     if (myLastUpdateTime > 0) {
         myElapsedTime = currentTime - myLastUpdateTime;
@@ -537,22 +500,9 @@
                 node.position = CGPointMake(node.position.x + myFrontGround.size.width * myFrontGroundTotal, node.position.y + 0);
             }
             
-            
-//            myFrontGround.position = CGPointMake(myFrontGround.position.x + myNewFrontGroundVelocity.x * (CGFloat)myElapsedTime, myFrontGround.position.y + myNewFrontGroundVelocity.y * (CGFloat)myElapsedTime);
-//            NSLog(@"FrontGround:%f",myFrontGround.position.x);
-            
-//            NSLog(@"%f",myFrontGround.position.x);
-            
-//            if (myFrontGround.position.x < - myFrontGround.size.width) {
-//                myFrontGround.position = CGPointMake(myFrontGround.position.x + myFrontGround.size.width * myFrontGroundTotal, myFrontGround.position.y + 0);
-//            }
         }
-        
-//        NSLog(@"BLOCK: %@", [node name]);
      
     }];
-    
-    
 }
 - (void)myHitObstacleCheck{
     if (myHitObstacle == YES) {
@@ -574,21 +524,25 @@
     }
 }
 - (void)myUpdateScore{
+    
     [myWorldNode enumerateChildNodesWithName:@"顶部障碍" usingBlock:^(SKNode *node, BOOL *stop) {
         NSString *passObstacle = @"已通过";
+        
+
         if ([[node.userData objectForKey:@"通过与否"] isEqual: passObstacle]) {
-            if (passObstacle.boolValue) {
-                
-            }
+            
+            NSLog(@"已经加了分数");
+            
+        } else if (myGameCharacter.position.x > node.position.x + myObstacle.size.width/2) {
+            myCurrentScore ++;
+            NSLog(@"分数++");
+            myScoreLabelNode.text = [NSString stringWithFormat:@"%d",myCurrentScore];
+            [node.userData setValue:passObstacle forKey:@"通过与否"];
+            NSLog(@"node.userData:%@", node.userData);
+            
+            //播放音效
         }
         
-        if (myGameCharacter.position.x > node.position.x + myObstacle.size.width/2) {
-            myCurrentScore ++;
-            myScoreLabelNode.text = [NSString stringWithFormat:@"%d",myCurrentScore];
-            [myObstacle.userData setValue:@"已通过" forKey:@"通过与否"];
-            //播放音效
-            
-        }
     }];
 }
 #pragma mark 游戏状态
