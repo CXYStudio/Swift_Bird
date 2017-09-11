@@ -44,6 +44,7 @@
     
     SKSpriteNode *myBackGround;
     SKSpriteNode *myFrontGround;
+    SKSpriteNode *myObstacle;
     
     //障碍物的最大最小范围
     CGFloat myMinimumCoefficient;
@@ -76,8 +77,15 @@
     
     int myCurrentGameState;
     
-    //游戏音效
+    //游戏音效（待添加）
     SKAction *mySoundFall;
+    
+    //顶部分数
+    CGFloat myTopBlank;
+    NSString *myTopBlankTypeface;
+    SKLabelNode *myScoreLabelNode;
+    int myCurrentScore;
+    
 }
 
 
@@ -92,8 +100,8 @@
     myWorldNode = [[SKNode alloc]init];
     [self addChild:myWorldNode];
     
-    myGravity = -800;
-    myFly = 500;
+    myGravity = -400;
+    myFly = 200;
     myVelocity = CGPointZero;
     
     myFrontGroundTotal = 2;// 循环地面
@@ -131,6 +139,10 @@
     //游戏音效
     mySoundFall = [SKAction playSoundFileNamed:@"falling.wav" waitForCompletion:NO];
 
+    //顶部分数
+    myTopBlank = 20.0;
+    myTopBlankTypeface = @"AmericanTypewriter-Bold";
+    myCurrentScore = 0;
     
     
     [self mySetBackGround];
@@ -138,6 +150,7 @@
     [self mySetGameCharacter];
     [self myInfiniteGenerateObstacle];
     [self mySetGameCharacterHat];
+    [self mySetScoreLabel];
     
     //test code
 //    int myRandomValue = arc4random()% 6 + 1;
@@ -270,10 +283,21 @@
     [myGameCharacter addChild:myGameCharacterHat];
 }
 
+- (void)mySetScoreLabel{
+    myScoreLabelNode = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myScoreLabelNode setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myScoreLabelNode.position = CGPointMake(self.size.width/2, self.size.height - myTopBlank);
+    [myScoreLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myScoreLabelNode.text = @"0";
+    myScoreLabelNode.zPosition = 5;
+    [myWorldNode addChild:myScoreLabelNode];
+     
+}
 #pragma mark 游戏事件
 - (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{//创建障碍物
-    SKSpriteNode *myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
+    myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
     myObstacle.zPosition = 1;
+    myObstacle.userData = [[NSMutableDictionary alloc]init];
     
     CGFloat offsetX = myObstacle.frame.size.width * myObstacle.anchorPoint.x;
     CGFloat offsetY = myObstacle.frame.size.height * myObstacle.anchorPoint.y;
@@ -471,6 +495,7 @@
             [self myUpdateFrontGround];
             [self myHitObstacleCheck];
             [self myHitFrontGroundCheck];
+            [self myUpdateScore];
             break;
         case 3:                 //myFall
             [self myUpdateGameCharacter];
@@ -547,6 +572,24 @@
         [self mySwitchToDisplayScore];
         
     }
+}
+- (void)myUpdateScore{
+    [myWorldNode enumerateChildNodesWithName:@"顶部障碍" usingBlock:^(SKNode *node, BOOL *stop) {
+        NSString *passObstacle = @"已通过";
+        if ([[node.userData objectForKey:@"通过与否"] isEqual: passObstacle]) {
+            if (passObstacle.boolValue) {
+                
+            }
+        }
+        
+        if (myGameCharacter.position.x > node.position.x + myObstacle.size.width/2) {
+            myCurrentScore ++;
+            myScoreLabelNode.text = [NSString stringWithFormat:@"%d",myCurrentScore];
+            [myObstacle.userData setValue:@"已通过" forKey:@"通过与否"];
+            //播放音效
+            
+        }
+    }];
 }
 #pragma mark 游戏状态
 - (void)mySwitchToFall{
