@@ -261,6 +261,49 @@
     [myWorldNode addChild:myScoreLabelNode];
      
 }
+
+- (void)mySetScorecard{
+    if (myCurrentScore > [self myBest]) {
+        [self mySetBest:myCurrentScore];
+    }
+    
+    SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
+    myScorecard.position = CGPointMake(self.size.width/2, self.size.height/2);
+    myScorecard.zPosition = 6;
+    [myWorldNode addChild:myScorecard];
+    
+    //目前得分
+    SKLabelNode *myScoreCurrentLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myScoreCurrentLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myScoreCurrentLabel.position = CGPointMake(-myScorecard.size.width/4, -myScorecard.size.height/6);
+    [myScoreCurrentLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myScoreCurrentLabel.text = [NSString stringWithFormat:@"%d",myCurrentScore];
+    myScoreCurrentLabel.zPosition = 6;
+    [myScorecard addChild:myScoreCurrentLabel];
+    
+    //最高分
+    SKLabelNode *myScoreBestLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myScoreBestLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myScoreBestLabel.position = CGPointMake(myScorecard.size.width/4, -myScorecard.size.height/6);
+    [myScoreBestLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myScoreBestLabel.text = [NSString stringWithFormat:@"%ld",(long)[self myBest]];
+    myScoreBestLabel.zPosition = 6;
+    [myScorecard addChild:myScoreBestLabel];
+    
+    //OK
+    SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+    myOKBtn.zPosition = 6;
+    [myWorldNode addChild:myOKBtn];
+    
+    SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonRight"];
+    myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+    myRightBtn.zPosition = 6;
+    [myWorldNode addChild:myRightBtn];
+    
+    //添加记分板动画组
+    
+}
 #pragma mark 游戏事件
 - (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{//创建障碍物
     myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
@@ -423,10 +466,10 @@
             
             break;
         case 4:                 //myDisplayScore
-            [self mySwitchToNewGame];
+            [self mySwitchToEndGame];
             break;
         case 5:                 //myEndGame
-            
+            [self mySwitchToNewGame];
             break;
             
         default:
@@ -564,6 +607,7 @@
     myCurrentGameState = myDisplayScore;
     [myGameCharacter removeAllActions];
     [self myStopGenerateObstacle];
+    [self mySetScorecard];
 }
 - (void)mySwitchToNewGame{
     //添加音效
@@ -574,6 +618,22 @@
     [self.view presentScene:myNewGame transition:mySwitchToNewGameEffects];
     
 }
+
+- (void)mySwitchToEndGame{
+    myCurrentGameState = myEndGame;
+    
+}
+
+// 分数
+- (NSInteger)myBest{
+    return [NSUserDefaults.standardUserDefaults integerForKey:@"最高分"];
+}
+- (void)mySetBest:(NSInteger)myBest{
+    [NSUserDefaults.standardUserDefaults setInteger:myBest forKey:@"最高分"];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
+//物体碰撞
 - (void)didBeginContact:(SKPhysicsContact *)contact{
     
     SKPhysicsBody *myBeHitObj = [[SKPhysicsBody alloc]init];
