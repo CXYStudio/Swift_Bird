@@ -137,7 +137,7 @@
     myDisplayScore =4;
     myEndGame = 5;
     
-    myCurrentGameState = 2;
+    myCurrentGameState = 0;
     
     //游戏音效
     mySoundFall = [SKAction playSoundFileNamed:@"falling.wav" waitForCompletion:NO];
@@ -147,19 +147,31 @@
     myTopBlankTypeface = @"AmericanTypewriter-Bold";
     myCurrentScore = 0;
     
-    
-    [self mySetBackGround];
-    [self mySetFrontGround];
-    [self mySetGameCharacter];
-    [self myInfiniteGenerateObstacle];
-    [self mySetGameCharacterHat];
-    [self mySetScoreLabel];
-    
-    
+    [self mySwitchToMainMenu];
     
 }
 
 #pragma mark 设置的相关方法
+-(void)mySetMainMenu{
+    SKSpriteNode *myPlayBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myPlayBtn.position = CGPointMake(self.size.width *0.25, self.size.height *0.25);
+    myPlayBtn.name = @"主菜单";
+    myPlayBtn.zPosition = 6;
+    [myWorldNode addChild:myPlayBtn];
+    
+    SKSpriteNode *myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
+    myPlayBtnPNG.position =CGPointZero;
+    [myPlayBtn addChild:myPlayBtnPNG];
+    
+}
+- (void)mySetTutorial{
+    SKSpriteNode *myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
+    myTutorialNode.position = CGPointMake(self.size.width/2, myGameRegionHeight *0.4 + myGameStartPoint);
+    myTutorialNode.name =@"教程";
+    myTutorialNode.zPosition = 6;
+    [myWorldNode addChild:myTutorialNode];
+    
+}
 - (void)mySetBackGround{
     
     myBackGround = [[SKSpriteNode alloc]initWithImageNamed:@"Background"];
@@ -450,10 +462,18 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
+    NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
+    UITouch *touch = [allTouches anyObject];   //视图中的所有对象
+    CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
+    
+    NSLog(@"point: %f,%f",point.x,point.y);
+    NSLog(@"myCurrentGameState:%d",myCurrentGameState);
     //根据游戏Status
     switch (myCurrentGameState) {
         case 0:                 //myMainMenu
-            
+            if (point.y < self.size.width/2) {
+                [self mySwitchToTutorial];
+            }
             break;
         case 1:                 //myTutorial
             
@@ -589,6 +609,36 @@
     }];
 }
 #pragma mark 游戏状态
+- (void)mySwitchToMainMenu{
+    myCurrentGameState = myMainMenu;
+    [self mySetBackGround];
+    [self mySetFrontGround];
+    [self mySetGameCharacter];
+    [self mySetGameCharacterHat];
+    [self mySetMainMenu];
+    
+}
+- (void)mySwitchToTutorial{
+    myCurrentGameState = myTutorial;
+    
+    [myWorldNode enumerateChildNodesWithName:@"主菜单" usingBlock:^(SKNode *node, BOOL *stop) {
+        [SKAction fadeOutWithDuration:0.05];
+        [SKAction removeFromParent];
+    }];
+    
+    
+    [self mySetScoreLabel];
+    [self mySetTutorial];
+    
+}
+- (void)mySwitchToGame{
+    [myWorldNode enumerateChildNodesWithName:@"教程" usingBlock:^(SKNode *node, BOOL *stop) {
+        [SKAction fadeOutWithDuration:0.05];
+        [SKAction removeFromParent];
+    }];
+    [self myInfiniteGenerateObstacle];
+    [self myGameCharacterFly];
+}
 - (void)mySwitchToFall{
     myCurrentGameState = myFall;
     SKAction *myWait = [SKAction waitForDuration:0.1];
