@@ -33,6 +33,10 @@
     CGFloat myGameRegionHeight;
     SKSpriteNode *myGameCharacter;
     SKSpriteNode *myGameCharacterHat;
+    SKSpriteNode *myPlayBtn;
+    SKSpriteNode *myPlayBtnPNG;
+    SKSpriteNode *myTutorialNode;
+    
     NSTimeInterval myLastUpdateTime;
     NSTimeInterval myElapsedTime;
     NSTimeInterval myCurrentTime;
@@ -153,19 +157,19 @@
 
 #pragma mark 设置的相关方法
 -(void)mySetMainMenu{
-    SKSpriteNode *myPlayBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myPlayBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
     myPlayBtn.position = CGPointMake(self.size.width *0.25, self.size.height *0.25);
     myPlayBtn.name = @"主菜单";
     myPlayBtn.zPosition = 6;
     [myWorldNode addChild:myPlayBtn];
     
-    SKSpriteNode *myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
+    myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
     myPlayBtnPNG.position =CGPointZero;
     [myPlayBtn addChild:myPlayBtnPNG];
     
 }
 - (void)mySetTutorial{
-    SKSpriteNode *myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
+    myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
     myTutorialNode.position = CGPointMake(self.size.width/2, myGameRegionHeight *0.4 + myGameStartPoint);
     myTutorialNode.name =@"教程";
     myTutorialNode.zPosition = 6;
@@ -317,7 +321,8 @@
     
 }
 #pragma mark 游戏事件
-- (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{//创建障碍物
+//创建障碍物
+- (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{
     myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
     myObstacle.zPosition = 1;
     myObstacle.userData = [[NSMutableDictionary alloc]init];
@@ -471,19 +476,18 @@
     //根据游戏Status
     switch (myCurrentGameState) {
         case 0:                 //myMainMenu
-            if (point.y < self.size.width/2) {
+            if (point.x < self.size.width/2) {
                 [self mySwitchToTutorial];
             }
             break;
         case 1:                 //myTutorial
-            
+            [self mySwitchToGame];
             break;
         case 2:                 //myGame
             //点击屏幕，GameCharacter向上飞
             [self myGameCharacterFly];
             break;
         case 3:                 //myFall
-            
             break;
         case 4:                 //myDisplayScore
             [self mySwitchToEndGame];
@@ -528,10 +532,8 @@
             [self myHitFrontGroundCheck];
             break;
         case 4:                 //myDisplayScore
-            
             break;
         case 5:                 //myEndGame
-            
             break;
             
         default:
@@ -622,8 +624,10 @@
     myCurrentGameState = myTutorial;
     
     [myWorldNode enumerateChildNodesWithName:@"主菜单" usingBlock:^(SKNode *node, BOOL *stop) {
-        [SKAction fadeOutWithDuration:0.05];
-        [SKAction removeFromParent];
+        SKAction *tmp1 = [SKAction fadeOutWithDuration:0.05];
+        SKAction *tmp2 = [SKAction removeFromParent];;
+        SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
+        [node runAction:tmp];
     }];
     
     
@@ -632,9 +636,12 @@
     
 }
 - (void)mySwitchToGame{
+    myCurrentGameState = myGame;
     [myWorldNode enumerateChildNodesWithName:@"教程" usingBlock:^(SKNode *node, BOOL *stop) {
-        [SKAction fadeOutWithDuration:0.05];
-        [SKAction removeFromParent];
+        SKAction *tmp1 = [SKAction fadeOutWithDuration:0.05];
+        SKAction *tmp2 = [SKAction removeFromParent];;
+        SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
+        [node runAction:tmp];
     }];
     [self myInfiniteGenerateObstacle];
     [self myGameCharacterFly];
@@ -674,7 +681,8 @@
     
 }
 
-// 分数
+#pragma mark 持久化存储
+//分数
 - (NSInteger)myBest{
     return [NSUserDefaults.standardUserDefaults integerForKey:@"最高分"];
 }
