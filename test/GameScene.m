@@ -33,10 +33,29 @@
     CGFloat myGameRegionHeight;
     SKSpriteNode *myGameCharacter;
     SKSpriteNode *myGameCharacterHat;
-    SKSpriteNode *myPlayBtn;
-    SKSpriteNode *myPlayBtnPNG;
     SKSpriteNode *myTutorialNode;
     
+    //开始界面按钮
+    SKSpriteNode *myClassicalBtn;
+//    SKSpriteNode *myPlayBtnPNG;
+    SKLabelNode *myClassicalBtnLabel;
+    
+    SKSpriteNode *myTrainBtn;
+    SKLabelNode *myTrainBtnLabel;
+    
+    SKSpriteNode *myInsaneBtn;
+    SKLabelNode *myInsaneBtnLabel;
+    
+    SKSpriteNode *myARBtn;
+    SKLabelNode *myARBtnLabel;
+    
+    SKSpriteNode *myRankingBtn;
+    SKLabelNode *myRankingBtnLabel;
+    
+    SKSpriteNode *mySettingBtn;
+    SKLabelNode *mySettingBtnLabel;
+    
+    //时间相关
     NSTimeInterval myLastUpdateTime;
     NSTimeInterval myElapsedTime;
     NSTimeInterval myCurrentTime;
@@ -93,6 +112,22 @@
     SKLabelNode *myScoreLabelNode;
     int myCurrentScore;
     
+    //游戏模式
+    int myClassicalMode;
+    int myTrainMode;
+    int myInsaneMode;
+    int myARMode;
+    int myRankingMode;
+    int mySettingMode;
+    
+    int myCurrentGameMode;
+//    NSString *myCurrentGameModeString;
+    
+    //游戏主题
+    int myNomalTheme;
+    int myCowboyTheme;
+    
+    int myCurrentGameTheme;
 }
 
 
@@ -151,22 +186,132 @@
     myTopBlankTypeface = @"AmericanTypewriter-Bold";
     myCurrentScore = 0;
     
+    //游戏模式
+    myClassicalMode = 0;
+    myTrainMode = 1;
+    myInsaneMode = 2;
+    myARMode = 3;
+    myRankingMode = 4;
+    mySettingMode =5;
+    
+    myCurrentGameMode = 0;
+//    myCurrentGameModeString = @"";
+    
+    //游戏主题
+    myNomalTheme = 0;
+    myCowboyTheme = 1;
+    
+    myCurrentGameTheme = 0;
+    
+    
     [self mySwitchToMainMenu];
     
 }
 
 #pragma mark 设置的相关方法
 -(void)mySetMainMenu{
-    myPlayBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
-    myPlayBtn.position = CGPointMake(self.size.width *0.25, self.size.height *0.25);
-    myPlayBtn.name = @"主菜单";
-    myPlayBtn.zPosition = 6;
-    [myWorldNode addChild:myPlayBtn];
     
-    myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
-    myPlayBtnPNG.position =CGPointZero;
-    [myPlayBtn addChild:myPlayBtnPNG];
+    //经典模式按钮
+    myClassicalBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myClassicalBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.7);
+    NSLog(@"##myPlayBtn.position:%f,%f",myClassicalBtn.position.x,myClassicalBtn.position.y);
+    myClassicalBtn.name = @"主菜单／经典";
+    myClassicalBtn.zPosition = 6;
+    [myWorldNode addChild:myClassicalBtn];
     
+//    myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
+//    myPlayBtnPNG.position =CGPointZero;
+//    [myPlayBtn addChild:myPlayBtnPNG];
+    
+    myClassicalBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myClassicalBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myClassicalBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    NSLog(@"##myPlayBtnLabel.position:%f,%f",myClassicalBtnLabel.position.x,myClassicalBtnLabel.position.y);
+    [myClassicalBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myClassicalBtnLabel.text = @"经典";
+    myClassicalBtnLabel.zPosition = 6;
+    myClassicalBtnLabel.name = @"主菜单／经典";
+    [myClassicalBtn addChild:myClassicalBtnLabel];
+    
+    //训练模式按钮
+    myTrainBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myTrainBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.6);
+    myTrainBtn.name = @"主菜单／训练";
+    myTrainBtn.zPosition = 6;
+    [myWorldNode addChild:myTrainBtn];
+    
+    myTrainBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myTrainBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myTrainBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myTrainBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myTrainBtnLabel.text = @"训练";
+    myTrainBtnLabel.zPosition = 6;
+    myTrainBtnLabel.name = @"主菜单／训练";
+    [myTrainBtn addChild:myTrainBtnLabel];
+    
+    //疯狂模式按钮
+    myInsaneBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myInsaneBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
+    myInsaneBtn.name = @"主菜单／训练";
+    myInsaneBtn.zPosition = 6;
+    [myWorldNode addChild:myInsaneBtn];
+    
+    myInsaneBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myInsaneBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myInsaneBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myInsaneBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myInsaneBtnLabel.text = @"训练";
+    myInsaneBtnLabel.zPosition = 6;
+    myInsaneBtnLabel.name = @"主菜单／训练";
+    [myInsaneBtn addChild:myInsaneBtnLabel];
+    
+    //AR模式按钮
+    myARBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myARBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.4);
+    myARBtn.name = @"主菜单／AR";
+    myARBtn.zPosition = 6;
+    [myWorldNode addChild:myARBtn];
+    
+    myARBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myARBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myARBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myARBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myARBtnLabel.text = @"AR";
+    myARBtnLabel.zPosition = 6;
+    myARBtnLabel.name = @"主菜单／AR";
+    [myARBtn addChild:myARBtnLabel];
+    
+    //排行按钮
+    myRankingBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myRankingBtn.position = CGPointMake(self.size.width * 0.25, self.size.height * 0.2);
+    myRankingBtn.name = @"主菜单／排行";
+    myRankingBtn.zPosition = 6;
+    [myWorldNode addChild:myRankingBtn];
+    
+    myRankingBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myRankingBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myRankingBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myRankingBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myRankingBtnLabel.text = @"排行";
+    myRankingBtnLabel.zPosition = 6;
+    myRankingBtnLabel.name = @"主菜单／排行";
+    [myRankingBtn addChild:myRankingBtnLabel];
+    
+    //设置按钮
+    mySettingBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    mySettingBtn.position = CGPointMake(self.size.width * 0.75, self.size.height * 0.2);
+    mySettingBtn.name = @"主菜单／设置";
+    mySettingBtn.zPosition = 6;
+    [myWorldNode addChild:mySettingBtn];
+    
+    mySettingBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [mySettingBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    mySettingBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [mySettingBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    mySettingBtnLabel.text = @"设置";
+    mySettingBtnLabel.zPosition = 6;
+    mySettingBtnLabel.name = @"主菜单／设置";
+    [mySettingBtn addChild:mySettingBtnLabel];
 }
 - (void)mySetTutorial{
     myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
@@ -471,14 +616,24 @@
     UITouch *touch = [allTouches anyObject];   //视图中的所有对象
     CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
     
+    
+    CGPoint location = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:location];
+    
     NSLog(@"point: %f,%f",point.x,point.y);
     NSLog(@"myCurrentGameState:%d",myCurrentGameState);
     //根据游戏Status
     switch (myCurrentGameState) {
         case 0:                 //myMainMenu
-            if (point.x < self.size.width/2) {
+//            if (point.y < self.size.height * 0.7) {
+//                [self mySwitchToTutorial];
+//            }
+            
+            //test code
+            if ([node.name isEqualToString:@"主菜单／经典"]) {
                 [self mySwitchToTutorial];
             }
+            //end test
             break;
         case 1:                 //myTutorial
             [self mySwitchToGame];
@@ -623,12 +778,30 @@
 - (void)mySwitchToTutorial{
     myCurrentGameState = myTutorial;
     
-    [myWorldNode enumerateChildNodesWithName:@"主菜单" usingBlock:^(SKNode *node, BOOL *stop) {
-        SKAction *tmp1 = [SKAction fadeOutWithDuration:0.05];
-        SKAction *tmp2 = [SKAction removeFromParent];;
-        SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
+    //动作组
+    SKAction *tmp1 = [SKAction fadeOutWithDuration:0.05];
+    SKAction *tmp2 = [SKAction removeFromParent];;
+    SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
+    
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／经典" usingBlock:^(SKNode *node, BOOL *stop) {
         [node runAction:tmp];
     }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／训练" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／疯狂" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／AR" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／排行" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／设置" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    
     
     
     [self mySetScoreLabel];
