@@ -22,7 +22,7 @@
     if (!skView.scene) {
         skView.showsFPS = YES;
         skView.showsNodeCount = YES;
-        skView.showsPhysics = YES;
+//        skView.showsPhysics = YES;
         skView.ignoresSiblingOrder = YES;
         
         // Create and configure the scene.

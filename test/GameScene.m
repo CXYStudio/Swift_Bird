@@ -105,6 +105,12 @@
     
     //游戏音效（待添加）
     SKAction *mySoundFall;
+    SKAction *mySoundFly;
+    SKAction *mySoundGetPoint;
+    SKAction *mySoundHitFrontGround;
+    SKAction *mySoundPop;
+    SKAction *mySoundWhack;
+
     
     //顶部分数
     CGFloat myTopBlank;
@@ -128,6 +134,9 @@
     int myCowboyTheme;
     
     int myCurrentGameTheme;
+    
+    //人物贴图组
+    int myGameCharacterNumberOfFrames;
 }
 
 
@@ -180,6 +189,13 @@
     
     //游戏音效
     mySoundFall = [SKAction playSoundFileNamed:@"falling.wav" waitForCompletion:NO];
+    mySoundFly = [SKAction playSoundFileNamed:@"flapping.wav" waitForCompletion:NO];
+    mySoundGetPoint = [SKAction playSoundFileNamed:@"coin.wav" waitForCompletion:NO];
+    mySoundHitFrontGround = [SKAction playSoundFileNamed:@"hitGround.wav" waitForCompletion:NO];
+    mySoundPop = [SKAction playSoundFileNamed:@"pop.wav" waitForCompletion:NO];
+    mySoundWhack = [SKAction playSoundFileNamed:@"whack.wav" waitForCompletion:NO];
+    
+//    [self runAction:[SKAction sequence:@[mySoundFall,mySoundFly,mySoundGetPoint,mySoundHitFrontGround,mySoundPop,mySoundWhack]]];
 
     //顶部分数
     myTopBlank = 20.0;
@@ -202,6 +218,9 @@
     myCowboyTheme = 1;
     
     myCurrentGameTheme = 0;
+    
+    //人物贴图组
+    myGameCharacterNumberOfFrames = 4;
     
     
     [self mySwitchToMainMenu];
@@ -319,6 +338,21 @@
     myTutorialNode.name =@"教程";
     myTutorialNode.zPosition = 6;
     [myWorldNode addChild:myTutorialNode];
+    
+    //人物煽动翅膀
+    NSMutableArray *myGameCharacterTextureArray = [[NSMutableArray alloc]init];
+    
+    for (int i = 0; i < myGameCharacterNumberOfFrames ; i ++) {
+        NSString *tmp = [NSString stringWithFormat:@"Bird%d",i];
+        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:tmp]];
+    }
+//    for (int i = myGameCharacterNumberOfFrames - 1; i >= 0 ; i --) {
+//        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:[NSString stringWithFormat:@"Bird%d",i]]];
+//    }
+    
+    SKAction *myGameCharacterWingAnimation = [SKAction animateWithTextures:myGameCharacterTextureArray timePerFrame:0.07];
+    [myGameCharacter runAction:[SKAction repeatActionForever:myGameCharacterWingAnimation]];
+    
     
 }
 - (void)mySetBackGround{
@@ -593,7 +627,7 @@
 - (void)myGameCharacterFly{
     
     myVelocity = CGPointMake(0, myFly);
-    
+    [myGameCharacter runAction:mySoundFly];
     //帽子飞一下的效果
     [self myGameCharacterHatFly];
     
@@ -614,26 +648,31 @@
     
     NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
     UITouch *touch = [allTouches anyObject];   //视图中的所有对象
-    CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
+//    CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
     
     
     CGPoint location = [touch locationInNode:self];
     SKNode *node = [self nodeAtPoint:location];
     
-    NSLog(@"point: %f,%f",point.x,point.y);
-    NSLog(@"myCurrentGameState:%d",myCurrentGameState);
+//    NSLog(@"point: %f,%f",point.x,point.y);
+//    NSLog(@"myCurrentGameState:%d",myCurrentGameState);
     //根据游戏Status
     switch (myCurrentGameState) {
         case 0:                 //myMainMenu
-//            if (point.y < self.size.height * 0.7) {
-//                [self mySwitchToTutorial];
-//            }
-            
-            //test code
             if ([node.name isEqualToString:@"主菜单／经典"]) {
-                [self mySwitchToTutorial];
+                [self gameClassicalMode];
+            } else if ([node.name isEqualToString:@"主菜单／训练"]){
+                [self gameTrainMode];
+            } else if ([node.name isEqualToString:@"主菜单／疯狂"]){
+                [self gameInsaneMode];
+            } else if ([node.name isEqualToString:@"主菜单／AR"]){
+                [self gameARMode];
+            } else if ([node.name isEqualToString:@"主菜单／排行"]){
+                [self gameRankingMode];
+            } else if ([node.name isEqualToString:@"主菜单／设置"]){
+                [self gameSettingMode];
             }
-            //end test
+            
             break;
         case 1:                 //myTutorial
             [self mySwitchToGame];
@@ -654,6 +693,25 @@
         default:
             break;
     }
+}
+#pragma mark 游戏模式(按钮)
+- (void)gameClassicalMode{
+    [self mySwitchToTutorial];
+}
+- (void)gameTrainMode{
+    [self mySwitchToTutorial];
+}
+- (void)gameInsaneMode{
+    [self mySwitchToTutorial];
+}
+- (void)gameARMode{
+    NSLog(@"AR模式");
+}
+- (void)gameRankingMode{
+    NSLog(@"排行");
+}
+- (void)gameSettingMode{
+    NSLog(@"设置");
 }
 
 #pragma mark 更新的相关方法
@@ -727,6 +785,7 @@
 - (void)myHitObstacleCheck{
     if (myHitObstacle == YES) {
         myHitObstacle = NO;
+        [self runAction:mySoundWhack];
         //切换到跌落状态
         [self mySwitchToFall];
     
@@ -739,6 +798,7 @@
         myGameCharacter.zRotation = DEGREES_TO_RADIANS(-90);
         myGameCharacter.position = CGPointMake(myGameCharacter.position.x, myGameStartPoint + myGameCharacter.size.width/2);
         
+        [self runAction:mySoundHitFrontGround];
         [self mySwitchToDisplayScore];
         
     }
@@ -751,7 +811,7 @@
 
         if ([[node.userData objectForKey:@"通过与否"] isEqual: passObstacle]) {
             
-            NSLog(@"已经加了分数");
+//            NSLog(@"已经加了分数");
             
         } else if (myGameCharacter.position.x > node.position.x + myObstacle.size.width/2) {
             myCurrentScore ++;
@@ -760,11 +820,13 @@
             [node.userData setValue:passObstacle forKey:@"通过与否"];
             NSLog(@"node.userData:%@", node.userData);
             
-            //播放音效
+            //音效
+            [self runAction:mySoundGetPoint];
         }
         
     }];
 }
+
 #pragma mark 游戏状态
 - (void)mySwitchToMainMenu{
     myCurrentGameState = myMainMenu;
@@ -820,13 +882,14 @@
     [self myGameCharacterFly];
 }
 - (void)mySwitchToFall{
+    
     myCurrentGameState = myFall;
     SKAction *myWait = [SKAction waitForDuration:0.1];
     SKAction *myFallSequence = [SKAction sequence:@[mySoundFall,myWait]];
-    
     [myGameCharacter runAction:myFallSequence];
-    
     [myGameCharacter removeAllActions];
+    //音效
+    [self runAction:mySoundFall];
     
     [self myStopGenerateObstacle];
     
