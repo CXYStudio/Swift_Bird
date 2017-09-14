@@ -476,6 +476,16 @@
     myScoreCurrentLabel.zPosition = 6;
     [myScorecard addChild:myScoreCurrentLabel];
     
+    SKLabelNode *myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
+    [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myScoreCurrent.text = @"得分";
+    myScoreCurrent.zPosition = 6;
+    [myScorecard addChild:myScoreCurrent];
+    
+    
     //最高分
     SKLabelNode *myScoreBestLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myScoreBestLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
@@ -485,16 +495,40 @@
     myScoreBestLabel.zPosition = 6;
     [myScorecard addChild:myScoreBestLabel];
     
+    SKLabelNode *myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myScoreBest setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myScoreBest.position = CGPointMake(myScorecard.size.width/4, myScorecard.size.height/4);
+    [myScoreBest setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myScoreBest.text = @"最高分";
+    myScoreBest.zPosition = 6;
+    [myScorecard addChild:myScoreBest];
+    
     //OK
     SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
     myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
     myOKBtn.zPosition = 6;
     [myWorldNode addChild:myOKBtn];
     
+    SKLabelNode *myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myOKBtnLabel.text = @"返回";
+    myOKBtnLabel.zPosition = 6;
+    [myOKBtn addChild:myOKBtnLabel];
+
+    
+    
+    //右边的按钮
     SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonRight"];
     myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
     myRightBtn.zPosition = 6;
     [myWorldNode addChild:myRightBtn];
+    
+    
+    
     
     //添加记分板动画组
     

@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/GameScene.m"
-            timestampString = "527050520.133137"
+            timestampString = "527083576.063002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "631"
-            endingLineNumber = "631"
+            startingLineNumber = "665"
+            endingLineNumber = "665"
             landmarkName = "-myGameCharacterFly"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "test/GameScene.m"
-            timestampString = "527050520.133137"
+            timestampString = "527083576.063002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "632"
-            endingLineNumber = "632"
+            startingLineNumber = "666"
+            endingLineNumber = "666"
             landmarkName = "-myGameCharacterFly"
             landmarkType = "7">
          </BreakpointContent>
