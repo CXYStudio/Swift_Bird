@@ -442,7 +442,7 @@
 - (void)mySetGameCharacterHat{
     myGameCharacterHat = [[SKSpriteNode alloc]initWithImageNamed:@"Hat"];
     myGameCharacterHat.position = CGPointMake(myGameCharacter.size.width/4, myGameCharacter.size.height/2);
-    myGameCharacterHat.zPosition = 4;
+    myGameCharacterHat.zPosition = 3;
     [myGameCharacter addChild:myGameCharacterHat];
 }
 
