@@ -155,7 +155,7 @@
     myFly = 200;
     myVelocity = CGPointZero;
     
-    myFrontGroundTotal = 2;// 循环地面
+    myFrontGroundTotal = 2;// 地面的数量
     myFrontGroundVelocity = -150;
     
     //障碍物的最大最小范围
@@ -271,7 +271,7 @@
     //疯狂模式按钮
     myInsaneBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
     myInsaneBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
-    myInsaneBtn.name = @"主菜单／训练";
+    myInsaneBtn.name = @"主菜单／疯狂";
     myInsaneBtn.zPosition = 6;
     [myWorldNode addChild:myInsaneBtn];
     
@@ -279,9 +279,9 @@
     [myInsaneBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myInsaneBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myInsaneBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myInsaneBtnLabel.text = @"训练";
+    myInsaneBtnLabel.text = @"疯狂";
     myInsaneBtnLabel.zPosition = 6;
-    myInsaneBtnLabel.name = @"主菜单／训练";
+    myInsaneBtnLabel.name = @"主菜单／疯狂";
     [myInsaneBtn addChild:myInsaneBtnLabel];
     
     //AR模式按钮
@@ -331,6 +331,103 @@
     mySettingBtnLabel.zPosition = 6;
     mySettingBtnLabel.name = @"主菜单／设置";
     [mySettingBtn addChild:mySettingBtnLabel];
+}
+
+- (void)mySetSetting{
+    if (myCurrentScore > [self myBest]) {
+        [self mySetBest:myCurrentScore];
+    }
+    
+    SKSpriteNode *mySettingUI = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
+    mySettingUI.position = CGPointMake(self.size.width*0.5, self.size.height*0.5);
+    mySettingUI.size = CGSizeMake(self.size.width*0.8, self.size.height*0.7);
+    mySettingUI.zPosition = 6;
+    [myWorldNode addChild:mySettingUI];
+    
+    //目前得分
+//    SKLabelNode *myScoreCurrentLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+//    [myScoreCurrentLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+//    myScoreCurrentLabel.position = CGPointMake(-myScorecard.size.width/4, -myScorecard.size.height/6);
+//    [myScoreCurrentLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+//    myScoreCurrentLabel.text = [NSString stringWithFormat:@"%d",myCurrentScore];
+//    myScoreCurrentLabel.zPosition = 6;
+//    [myScorecard addChild:myScoreCurrentLabel];
+//    
+//    SKLabelNode *myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+//    myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+//    [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+//    myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
+//    [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+//    myScoreCurrent.text = @"得分";
+//    myScoreCurrent.zPosition = 6;
+//    [myScorecard addChild:myScoreCurrent];
+    
+    //OK
+    SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myOKBtn.position = CGPointMake(self.size.width*0.5, self.size.height/2 - mySettingUI.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+    myOKBtn.zPosition = 6;
+    myOKBtn.name = @"设置／返回";
+    [myWorldNode addChild:myOKBtn];
+    
+    SKLabelNode *myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+    [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myOKBtnLabel.text = @"返回";
+    myOKBtnLabel.zPosition = 6;
+    myOKBtnLabel.name = @"设置／返回";
+    [myOKBtn addChild:myOKBtnLabel];
+    
+    //主题
+    SKLabelNode *myThemeLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myThemeLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myThemeLabel.position = CGPointMake(CGPointZero.x, mySettingUI.frame.origin.y + mySettingUI.size.height * 0.2 );
+    [myThemeLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myThemeLabel.text = @"主题";
+    myThemeLabel.zPosition = 6;
+    [mySettingUI addChild:myThemeLabel];
+    //反馈
+    SKLabelNode *myFeedbackLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myFeedbackLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myFeedbackLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.1);
+    [myFeedbackLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myFeedbackLabel.text = @"反馈";
+    myFeedbackLabel.zPosition = 6;
+    [mySettingUI addChild:myFeedbackLabel];
+    
+    SKSpriteNode *myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
+    myFeedbackPNG.position = CGPointMake(mySettingUI.frame.origin.x, myFeedbackLabel.frame.origin.y + myFeedbackLabel.frame.size.height/2);
+    [mySettingUI addChild:myFeedbackPNG];
+    
+    //访问网站
+    SKLabelNode *myWebLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myWebLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myWebLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.3);
+    [myWebLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myWebLabel.text = @"网站";
+    myWebLabel.zPosition = 6;
+    [mySettingUI addChild:myWebLabel];
+    
+    SKSpriteNode *myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
+    myWebPNG.position = CGPointMake(mySettingUI.frame.origin.x, myWebLabel.frame.origin.y + myWebLabel.frame.size.height/2);
+    [mySettingUI addChild:myWebPNG];
+    //关于
+    SKLabelNode *myAboutLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myAboutLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+    myAboutLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.5);
+    [myAboutLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+    myAboutLabel.text = @"关于";
+    myAboutLabel.zPosition = 6;
+    [mySettingUI addChild:myAboutLabel];
+    
+    SKSpriteNode *myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
+    myAboutPNG.position = CGPointMake(mySettingUI.frame.origin.x, myAboutLabel.frame.origin.y + myAboutLabel.frame.size.height/2);
+    [mySettingUI addChild:myAboutPNG];
+    
+    
+    
+
 }
 - (void)mySetTutorial{
     myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
@@ -434,7 +531,7 @@
     myGameCharacter.physicsBody.collisionBitMask = 0;
     myGameCharacter.physicsBody.contactTestBitMask = physicsObstacle | physicsFrontGround;
     
-    
+    myGameCharacter.name = @"游戏角色";
     [myWorldNode addChild:myGameCharacter];
     
 }
@@ -447,90 +544,96 @@
 }
 
 - (void)mySetScoreLabel{
-    myScoreLabelNode = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myScoreLabelNode setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myScoreLabelNode.position = CGPointMake(self.size.width/2, self.size.height - myTopBlank);
-    [myScoreLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myScoreLabelNode.text = @"0";
-    myScoreLabelNode.zPosition = 5;
-    [myWorldNode addChild:myScoreLabelNode];
-     
+    //经典模式和疯狂模式需要设置分数Label
+    if (myCurrentGameMode == 0 || myCurrentGameMode == 2) {
+        myScoreLabelNode = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myScoreLabelNode setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myScoreLabelNode.position = CGPointMake(self.size.width/2, self.size.height - myTopBlank);
+        [myScoreLabelNode setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myScoreLabelNode.text = @"0";
+        myScoreLabelNode.zPosition = 5;
+        [myWorldNode addChild:myScoreLabelNode];
+    }
 }
 
 - (void)mySetScorecard{
-    if (myCurrentScore > [self myBest]) {
-        [self mySetBest:myCurrentScore];
-    }
-    
-    SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
-    myScorecard.position = CGPointMake(self.size.width/2, self.size.height/2);
-    myScorecard.zPosition = 6;
-    [myWorldNode addChild:myScorecard];
-    
-    //目前得分
-    SKLabelNode *myScoreCurrentLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myScoreCurrentLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myScoreCurrentLabel.position = CGPointMake(-myScorecard.size.width/4, -myScorecard.size.height/6);
-    [myScoreCurrentLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myScoreCurrentLabel.text = [NSString stringWithFormat:@"%d",myCurrentScore];
-    myScoreCurrentLabel.zPosition = 6;
-    [myScorecard addChild:myScoreCurrentLabel];
-    
-    SKLabelNode *myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
-    [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myScoreCurrent.text = @"得分";
-    myScoreCurrent.zPosition = 6;
-    [myScorecard addChild:myScoreCurrent];
-    
-    
-    //最高分
-    SKLabelNode *myScoreBestLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myScoreBestLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myScoreBestLabel.position = CGPointMake(myScorecard.size.width/4, -myScorecard.size.height/6);
-    [myScoreBestLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myScoreBestLabel.text = [NSString stringWithFormat:@"%ld",(long)[self myBest]];
-    myScoreBestLabel.zPosition = 6;
-    [myScorecard addChild:myScoreBestLabel];
-    
-    SKLabelNode *myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myScoreBest setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myScoreBest.position = CGPointMake(myScorecard.size.width/4, myScorecard.size.height/4);
-    [myScoreBest setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myScoreBest.text = @"最高分";
-    myScoreBest.zPosition = 6;
-    [myScorecard addChild:myScoreBest];
-    
-    //OK
-    SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
-    myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
-    myOKBtn.zPosition = 6;
-    [myWorldNode addChild:myOKBtn];
-    
-    SKLabelNode *myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-    [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
-    [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myOKBtnLabel.text = @"返回";
-    myOKBtnLabel.zPosition = 6;
-    [myOKBtn addChild:myOKBtnLabel];
+    //经典模式和疯狂模式需要记分板
+    if (myCurrentGameMode == 0 || myCurrentGameMode == 2 ) {
+        if (myCurrentScore > [self myBest]) {
+            [self mySetBest:myCurrentScore];
+        }
+        
+        SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
+        myScorecard.position = CGPointMake(self.size.width/2, self.size.height/2);
+        myScorecard.zPosition = 6;
+        [myWorldNode addChild:myScorecard];
+        
+        //目前得分
+        SKLabelNode *myScoreCurrentLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myScoreCurrentLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myScoreCurrentLabel.position = CGPointMake(-myScorecard.size.width/4, -myScorecard.size.height/6);
+        [myScoreCurrentLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myScoreCurrentLabel.text = [NSString stringWithFormat:@"%d",myCurrentScore];
+        myScoreCurrentLabel.zPosition = 6;
+        [myScorecard addChild:myScoreCurrentLabel];
+        
+        SKLabelNode *myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
+        [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myScoreCurrent.text = @"得分";
+        myScoreCurrent.zPosition = 6;
+        [myScorecard addChild:myScoreCurrent];
+        
+        
+        //最高分
+        SKLabelNode *myScoreBestLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myScoreBestLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myScoreBestLabel.position = CGPointMake(myScorecard.size.width/4, -myScorecard.size.height/6);
+        [myScoreBestLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myScoreBestLabel.text = [NSString stringWithFormat:@"%ld",(long)[self myBest]];
+        myScoreBestLabel.zPosition = 6;
+        [myScorecard addChild:myScoreBestLabel];
+        
+        SKLabelNode *myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        myScoreBest = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myScoreBest setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myScoreBest.position = CGPointMake(myScorecard.size.width/4, myScorecard.size.height/4);
+        [myScoreBest setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myScoreBest.text = @"最高分";
+        myScoreBest.zPosition = 6;
+        [myScorecard addChild:myScoreBest];
+        
+        //OK
+        SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+        myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+        myOKBtn.zPosition = 6;
+        [myWorldNode addChild:myOKBtn];
+        
+        SKLabelNode *myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+        [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myOKBtnLabel.text = @"返回";
+        myOKBtnLabel.zPosition = 6;
+        [myOKBtn addChild:myOKBtnLabel];
+        
+        
+        
+        //右边的按钮
+        SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonRight"];
+        myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+        myRightBtn.zPosition = 6;
+        [myWorldNode addChild:myRightBtn];
+        
+        
+        
+        
+        //添加记分板动画组
 
-    
-    
-    //右边的按钮
-    SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonRight"];
-    myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
-    myRightBtn.zPosition = 6;
-    [myWorldNode addChild:myRightBtn];
-    
-    
-    
-    
-    //添加记分板动画组
+    }
     
 }
 #pragma mark 游戏事件
@@ -677,7 +780,7 @@
     [myGameCharacterHat runAction:myAllHatFly];
     
 }
-
+#pragma mark 触摸事件
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
@@ -706,6 +809,9 @@
             } else if ([node.name isEqualToString:@"主菜单／设置"]){
                 [self gameSettingMode];
             }
+            if ([node.name isEqualToString:@"设置／返回"]) {
+                [self mySwitchToNewGame];
+            }
             
             break;
         case 1:                 //myTutorial
@@ -718,7 +824,12 @@
         case 3:                 //myFall
             break;
         case 4:                 //myDisplayScore
-            [self mySwitchToEndGame];
+            if (myCurrentGameMode != 1) {
+                [self mySwitchToEndGame];
+            } else if (myCurrentGameMode == 1){
+                [self mySwitchToNewGame];
+            }
+            
             break;
         case 5:                 //myEndGame
             [self mySwitchToNewGame];
@@ -730,22 +841,69 @@
 }
 #pragma mark 游戏模式(按钮)
 - (void)gameClassicalMode{
+    myCurrentGameMode = 0;
     [self mySwitchToTutorial];
+    
 }
 - (void)gameTrainMode{
+    myCurrentGameMode = 1;
+    myTimeGenerateObstacle = 3;
+    myGravity = -400;
+    myFly = 200;
     [self mySwitchToTutorial];
+    
 }
 - (void)gameInsaneMode{
+    myCurrentGameMode = 2;
+    myTimeGenerateObstacle = 1;
+    myGravity = -600;
+    myFly = 300;
     [self mySwitchToTutorial];
 }
 - (void)gameARMode{
+    myCurrentGameMode = 3;
     NSLog(@"AR模式");
 }
 - (void)gameRankingMode{
+    myCurrentGameMode = 4;
     NSLog(@"排行");
 }
 - (void)gameSettingMode{
+    myCurrentGameMode = 5;
     NSLog(@"设置");
+    
+    //动作组
+    SKAction *tmp1 = [SKAction fadeOutWithDuration:0.05];
+    SKAction *tmp2 = [SKAction removeFromParent];;
+    SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
+    
+    //清楚界面元素
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／经典" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／训练" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／疯狂" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／AR" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／排行" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／设置" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    
+    [myWorldNode enumerateChildNodesWithName:@"游戏角色" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
+    
+    //设置 设置界面的UI
+    [self mySetSetting];
+    
 }
 
 #pragma mark 更新的相关方法
@@ -863,12 +1021,23 @@
 
 #pragma mark 游戏状态
 - (void)mySwitchToMainMenu{
-    myCurrentGameState = myMainMenu;
-    [self mySetBackGround];
-    [self mySetFrontGround];
-    [self mySetGameCharacter];
-    [self mySetGameCharacterHat];
-    [self mySetMainMenu];
+    
+    if (myCurrentGameMode == 1) {
+        myCurrentGameState = myGame;
+        [self mySetBackGround];
+        [self mySetFrontGround];
+        [self mySetGameCharacter];
+        [self mySetGameCharacterHat];
+        
+    } else{
+        myCurrentGameState = myMainMenu;
+        [self mySetBackGround];
+        [self mySetFrontGround];
+        [self mySetGameCharacter];
+        [self mySetGameCharacterHat];
+        [self mySetMainMenu];
+    }
+    
     
 }
 - (void)mySwitchToTutorial{
