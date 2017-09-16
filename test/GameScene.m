@@ -137,6 +137,11 @@
     
     //人物贴图组
     int myGameCharacterNumberOfFrames;
+    
+    //图片元素
+    SKSpriteNode *myFeedbackPNG;
+    SKSpriteNode *myWebPNG;
+    SKSpriteNode *myAboutPNG;
 }
 
 
@@ -221,6 +226,14 @@
     
     //人物贴图组
     myGameCharacterNumberOfFrames = 4;
+    
+    SKTexture *tmp = [SKTexture textureWithImageNamed:@"Mail"];
+    //初始化图片元素
+//    myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
+
+    myFeedbackPNG = [[SKSpriteNode alloc]initWithTexture:tmp];
+    myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
+    myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
     
     
     [self mySwitchToMainMenu];
@@ -334,9 +347,7 @@
 }
 
 - (void)mySetSetting{
-    if (myCurrentScore > [self myBest]) {
-        [self mySetBest:myCurrentScore];
-    }
+    
     
     SKSpriteNode *mySettingUI = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
     mySettingUI.position = CGPointMake(self.size.width*0.5, self.size.height*0.5);
@@ -387,6 +398,7 @@
     myThemeLabel.text = @"主题";
     myThemeLabel.zPosition = 6;
     [mySettingUI addChild:myThemeLabel];
+    
     //反馈
     SKLabelNode *myFeedbackLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myFeedbackLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
@@ -396,7 +408,6 @@
     myFeedbackLabel.zPosition = 6;
     [mySettingUI addChild:myFeedbackLabel];
     
-    SKSpriteNode *myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
     myFeedbackPNG.position = CGPointMake(mySettingUI.frame.origin.x, myFeedbackLabel.frame.origin.y + myFeedbackLabel.frame.size.height/2);
     [mySettingUI addChild:myFeedbackPNG];
     
@@ -409,9 +420,9 @@
     myWebLabel.zPosition = 6;
     [mySettingUI addChild:myWebLabel];
     
-    SKSpriteNode *myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
     myWebPNG.position = CGPointMake(mySettingUI.frame.origin.x, myWebLabel.frame.origin.y + myWebLabel.frame.size.height/2);
     [mySettingUI addChild:myWebPNG];
+    
     //关于
     SKLabelNode *myAboutLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myAboutLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
@@ -421,13 +432,10 @@
     myAboutLabel.zPosition = 6;
     [mySettingUI addChild:myAboutLabel];
     
-    SKSpriteNode *myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
     myAboutPNG.position = CGPointMake(mySettingUI.frame.origin.x, myAboutLabel.frame.origin.y + myAboutLabel.frame.size.height/2);
     [mySettingUI addChild:myAboutPNG];
     
-    
-    
-
+//    [self runAction:[SKAction waitForDuration:0.5]];
 }
 - (void)mySetTutorial{
     myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
@@ -901,6 +909,7 @@
         [node runAction:tmp];
     }];
     
+    
     //设置 设置界面的UI
     [self mySetSetting];
     
@@ -1110,7 +1119,7 @@
     
     //
     GameScene *myNewGame = [[GameScene alloc]initWithSize:self.size];
-    SKTransition *mySwitchToNewGameEffects = [SKTransition fadeWithColor:[SKColor blackColor] duration:0.1];
+    SKTransition *mySwitchToNewGameEffects = [SKTransition fadeWithColor:[SKColor blackColor] duration:0.3];
     [self.view presentScene:myNewGame transition:mySwitchToNewGameEffects];
     
 }
