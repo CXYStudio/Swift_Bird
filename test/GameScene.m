@@ -227,11 +227,14 @@
     //人物贴图组
     myGameCharacterNumberOfFrames = 4;
     
+    
+    //test code
     SKTexture *tmp = [SKTexture textureWithImageNamed:@"Mail"];
-    //初始化图片元素
-//    myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
-
     myFeedbackPNG = [[SKSpriteNode alloc]initWithTexture:tmp];
+    //end test
+    
+    //初始化图片元素
+    myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
     myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
     myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
     
@@ -355,23 +358,6 @@
     mySettingUI.zPosition = 6;
     [myWorldNode addChild:mySettingUI];
     
-    //目前得分
-//    SKLabelNode *myScoreCurrentLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-//    [myScoreCurrentLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-//    myScoreCurrentLabel.position = CGPointMake(-myScorecard.size.width/4, -myScorecard.size.height/6);
-//    [myScoreCurrentLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-//    myScoreCurrentLabel.text = [NSString stringWithFormat:@"%d",myCurrentScore];
-//    myScoreCurrentLabel.zPosition = 6;
-//    [myScorecard addChild:myScoreCurrentLabel];
-//    
-//    SKLabelNode *myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-//    myScoreCurrent = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
-//    [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-//    myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
-//    [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-//    myScoreCurrent.text = @"得分";
-//    myScoreCurrent.zPosition = 6;
-//    [myScorecard addChild:myScoreCurrent];
     
     //OK
     SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
@@ -396,6 +382,7 @@
     myThemeLabel.position = CGPointMake(CGPointZero.x, mySettingUI.frame.origin.y + mySettingUI.size.height * 0.2 );
     [myThemeLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
     myThemeLabel.text = @"主题";
+    myThemeLabel.name = @"设置／主题";
     myThemeLabel.zPosition = 6;
     [mySettingUI addChild:myThemeLabel];
     
@@ -405,10 +392,12 @@
     myFeedbackLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.1);
     [myFeedbackLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
     myFeedbackLabel.text = @"反馈";
+    myFeedbackLabel.name = @"设置／反馈";
     myFeedbackLabel.zPosition = 6;
     [mySettingUI addChild:myFeedbackLabel];
     
     myFeedbackPNG.position = CGPointMake(mySettingUI.frame.origin.x, myFeedbackLabel.frame.origin.y + myFeedbackLabel.frame.size.height/2);
+    myFeedbackPNG.name = @"设置／反馈";
     [mySettingUI addChild:myFeedbackPNG];
     
     //访问网站
@@ -417,10 +406,12 @@
     myWebLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.3);
     [myWebLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
     myWebLabel.text = @"网站";
+    myWebLabel.name = @"设置／网站";
     myWebLabel.zPosition = 6;
     [mySettingUI addChild:myWebLabel];
     
     myWebPNG.position = CGPointMake(mySettingUI.frame.origin.x, myWebLabel.frame.origin.y + myWebLabel.frame.size.height/2);
+    myWebPNG.name = @"设置／网站";
     [mySettingUI addChild:myWebPNG];
     
     //关于
@@ -429,10 +420,12 @@
     myAboutLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.5);
     [myAboutLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
     myAboutLabel.text = @"关于";
+    myAboutLabel.name = @"设置／关于";
     myAboutLabel.zPosition = 6;
     [mySettingUI addChild:myAboutLabel];
     
     myAboutPNG.position = CGPointMake(mySettingUI.frame.origin.x, myAboutLabel.frame.origin.y + myAboutLabel.frame.size.height/2);
+    myAboutPNG.name = @"设置／关于";
     [mySettingUI addChild:myAboutPNG];
     
 //    [self runAction:[SKAction waitForDuration:0.5]];
@@ -819,6 +812,12 @@
             }
             if ([node.name isEqualToString:@"设置／返回"]) {
                 [self mySwitchToNewGame];
+            }
+            if ([node.name isEqualToString:@"设置／网站"]) {
+                NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com/cn/"];
+                [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
+                    NSLog(@"Open %d",success);
+                }];
             }
             
             break;
