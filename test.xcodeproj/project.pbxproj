@@ -41,6 +41,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1EACB6B01F7112CF00D6237E /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1E2E07801F611C8F0052028A /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2E07841F611C8F0052028A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -181,6 +194,7 @@
 				1E2E077C1F611C8F0052028A /* Sources */,
 				1E2E077D1F611C8F0052028A /* Frameworks */,
 				1E2E077E1F611C8F0052028A /* Resources */,
+				1EACB6B01F7112CF00D6237E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);

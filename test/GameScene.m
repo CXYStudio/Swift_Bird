@@ -718,7 +718,14 @@
         myRightBtn.zPosition = 6;
         [myWorldNode addChild:myRightBtn];
         
-        
+        SKLabelNode *myShareBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        myShareBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+        [myShareBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
+        myShareBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
+        [myShareBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
+        myShareBtnLabel.text = @"分享";
+        myShareBtnLabel.zPosition = 6;
+        [myRightBtn addChild:myShareBtnLabel];
         
         
         //添加记分板动画组
