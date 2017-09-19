@@ -939,7 +939,8 @@
                 [mailUrl appendString:@"&body="];
                 
                 NSString *emailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath]];
+
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath] options:@{} completionHandler:nil];
                 
             }
             if ([node.name isEqualToString:@"设置／网站"]) {
