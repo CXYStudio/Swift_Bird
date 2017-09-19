@@ -929,6 +929,19 @@
             if ([node.name isEqualToString:@"设置／返回"]) {
                 [self mySwitchToNewGame];
             }
+            if ([node.name isEqualToString:@"设置／反馈"]) {
+                NSMutableString *mailUrl = [[NSMutableString alloc] init];
+                NSArray *toRecipients = @[@"caocaodajiang@icloud.com"];
+                [mailUrl appendFormat:@"mailto:%@", toRecipients[0]];
+                
+                [mailUrl appendString:@"?&subject=反馈(Feedback)"];
+                
+                [mailUrl appendString:@"&body="];
+                
+                NSString *emailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath]];
+                
+            }
             if ([node.name isEqualToString:@"设置／网站"]) {
                 NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com/cn/"];
                 [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
@@ -970,6 +983,7 @@
             break;
     }
 }
+
 - (void)myShare{
     CGSize size = self.view.bounds.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
