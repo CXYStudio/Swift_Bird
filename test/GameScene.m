@@ -327,6 +327,17 @@
 }
 //设置主菜单UI
 -(void)mySetMainMenu{
+    SKSpriteNode *myLogo = [[SKSpriteNode alloc]initWithImageNamed:@"logo_cn"];
+    myLogo.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.89);
+    myLogo.zPosition = 6;
+    myLogo.name = @"主菜单／Logo";
+    [myWorldNode addChild:myLogo];
+    
+    SKSpriteNode *myLogoBird = [[SKSpriteNode alloc]initWithImageNamed:@"logo_bird"];
+    myLogoBird.position = CGPointMake(self.size.width * 0.8 , self.size.height * 0.9);
+    myLogoBird.zPosition = 6;
+    myLogoBird.name = @"主菜单／Logo";
+    [myWorldNode addChild:myLogoBird];
     
     //经典模式按钮
     myClassicalBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
@@ -1276,6 +1287,9 @@
     SKAction *tmp2 = [SKAction removeFromParent];;
     SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
     
+    [myWorldNode enumerateChildNodesWithName:@"主菜单／Logo" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node runAction:tmp];
+    }];
     [myWorldNode enumerateChildNodesWithName:@"主菜单／经典" usingBlock:^(SKNode *node, BOOL *stop) {
         [node runAction:tmp];
     }];
