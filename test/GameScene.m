@@ -127,21 +127,39 @@
     int mySettingMode;
     
     int myCurrentGameMode;
-//    NSString *myCurrentGameModeString;
+
     
     //游戏主题
     int myNomalTheme;
     int myCowboyTheme;
     
-    int myCurrentGameTheme;
+    NSInteger myCurrentGameTheme;
     
     //人物贴图组
     int myGameCharacterNumberOfFrames;
     
     //图片元素
+    SKSpriteNode *myThemePNG;
     SKSpriteNode *myFeedbackPNG;
     SKSpriteNode *myWebPNG;
     SKSpriteNode *myAboutPNG;
+    
+    //分段控制器
+    NSArray *myThemeArray;
+    UISegmentedControl *myThemeSegmentedControl;
+    
+    //全局主题元素变量
+    NSString *myThemeElementBackground;
+    NSString *myThemeElementBird;
+    NSString *myThemeElementBottom;
+    NSString *myThemeElementButtonLeft;
+    NSString *myThemeElementButtonRight;
+    NSString *myThemeElementGround;
+    NSString *myThemeElementHat;
+    NSString *myThemeElementScorecard;
+    NSString *myThemeElementTop;
+    NSString *myThemeElementTutorial;
+    
 }
 
 
@@ -234,20 +252,78 @@
     //end test
     
     //初始化图片元素
+    myThemePNG = [[SKSpriteNode alloc]initWithImageNamed:@"Theme"];
     myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
     myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
     myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
     
+    //分段控制器初始化
+    myThemeArray = [NSArray arrayWithObjects:@"普通",@"牛仔", nil];
+    myThemeSegmentedControl = [[UISegmentedControl alloc]initWithItems:myThemeArray];
+    
+    //UISegmentedControl事件
+    [myThemeSegmentedControl addTarget:self action:@selector(mySegmentedControlChange:) forControlEvents:UIControlEventValueChanged];
+    
+    //全局主题元素变量
+    myThemeElementBackground = @"";
+    myThemeElementBird = @"";
+    myThemeElementBottom = @"";
+    myThemeElementButtonLeft = @"";
+    myThemeElementButtonRight = @"";
+    myThemeElementGround = @"";
+    myThemeElementHat = @"";
+    myThemeElementScorecard = @"";
+    myThemeElementTop = @"";
+    myThemeElementTutorial = @"";
     
     [self mySwitchToMainMenu];
     
 }
 
 #pragma mark 设置的相关方法
+//定义主题
+- (void)myDefineTheme{
+    myCurrentGameTheme = [self myTheme];
+    
+    switch (myCurrentGameTheme) {
+        case 0:
+            //全局主题元素变量
+            myThemeElementBackground = @"BackgroundNormal";
+            myThemeElementBird = @"BirdNormal";
+            myThemeElementBottom = @"BottomNormal";
+            myThemeElementButtonLeft = @"ButtonLeftNormal";
+            myThemeElementButtonRight = @"ButtonRightNormal";
+            myThemeElementGround = @"GroundNormal";
+            myThemeElementHat = @"";
+            myThemeElementScorecard = @"ScorecardNormal";
+            myThemeElementTop = @"TopNormal";
+            myThemeElementTutorial = @"TutorialNormal";
+            break;
+        case 1:
+            //全局主题元素变量
+            myThemeElementBackground = @"Background";
+            myThemeElementBird = @"Bird";
+            myThemeElementBottom = @"Bottom";
+            myThemeElementButtonLeft = @"ButtonLeft";
+            myThemeElementButtonRight = @"ButtonRight";
+            myThemeElementGround = @"Ground";
+            myThemeElementHat = @"Hat";
+            myThemeElementScorecard = @"Scorecard";
+            myThemeElementTop = @"Top";
+            myThemeElementTutorial = @"Tutorial";
+            break;
+            
+            
+        default:
+            break;
+    }
+    
+}
+//设置主菜单UI
 -(void)mySetMainMenu{
     
     //经典模式按钮
-    myClassicalBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myClassicalBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myClassicalBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.7);
     NSLog(@"##myPlayBtn.position:%f,%f",myClassicalBtn.position.x,myClassicalBtn.position.y);
     myClassicalBtn.name = @"主菜单／经典";
@@ -269,7 +345,7 @@
     [myClassicalBtn addChild:myClassicalBtnLabel];
     
     //训练模式按钮
-    myTrainBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myTrainBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myTrainBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.6);
     myTrainBtn.name = @"主菜单／训练";
     myTrainBtn.zPosition = 6;
@@ -285,7 +361,7 @@
     [myTrainBtn addChild:myTrainBtnLabel];
     
     //疯狂模式按钮
-    myInsaneBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myInsaneBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myInsaneBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.5);
     myInsaneBtn.name = @"主菜单／疯狂";
     myInsaneBtn.zPosition = 6;
@@ -301,7 +377,7 @@
     [myInsaneBtn addChild:myInsaneBtnLabel];
     
     //AR模式按钮
-    myARBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myARBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myARBtn.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.4);
     myARBtn.name = @"主菜单／AR";
     myARBtn.zPosition = 6;
@@ -317,7 +393,7 @@
     [myARBtn addChild:myARBtnLabel];
     
     //排行按钮
-    myRankingBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    myRankingBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myRankingBtn.position = CGPointMake(self.size.width * 0.25, self.size.height * 0.2);
     myRankingBtn.name = @"主菜单／排行";
     myRankingBtn.zPosition = 6;
@@ -333,7 +409,7 @@
     [myRankingBtn addChild:myRankingBtnLabel];
     
     //设置按钮
-    mySettingBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    mySettingBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     mySettingBtn.position = CGPointMake(self.size.width * 0.75, self.size.height * 0.2);
     mySettingBtn.name = @"主菜单／设置";
     mySettingBtn.zPosition = 6;
@@ -352,7 +428,7 @@
 - (void)mySetSetting{
     
     
-    SKSpriteNode *mySettingUI = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
+    SKSpriteNode *mySettingUI = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementScorecard];
     mySettingUI.position = CGPointMake(self.size.width*0.5, self.size.height*0.5);
     mySettingUI.size = CGSizeMake(self.size.width*0.8, self.size.height*0.7);
     mySettingUI.zPosition = 6;
@@ -360,7 +436,7 @@
     
     
     //OK
-    SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+    SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
     myOKBtn.position = CGPointMake(self.size.width*0.5, self.size.height/2 - mySettingUI.size.height/2 - myTopBlank - myOKBtn.size.height/2);
     myOKBtn.zPosition = 6;
     myOKBtn.name = @"设置／返回";
@@ -379,12 +455,24 @@
     //主题
     SKLabelNode *myThemeLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myThemeLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
-    myThemeLabel.position = CGPointMake(CGPointZero.x, mySettingUI.frame.origin.y + mySettingUI.size.height * 0.2 );
+    myThemeLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y + mySettingUI.size.height * 0.2);
     [myThemeLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
     myThemeLabel.text = @"主题";
     myThemeLabel.name = @"设置／主题";
     myThemeLabel.zPosition = 6;
     [mySettingUI addChild:myThemeLabel];
+    
+    myThemePNG.position = CGPointMake(mySettingUI.frame.origin.x, myThemeLabel.frame.origin.y + myThemeLabel.frame.size.height/2);
+    myThemePNG.name = @"设置／主题";
+    [mySettingUI addChild:myThemePNG];
+    
+    
+    myThemeSegmentedControl.frame = CGRectMake(mySettingUI.position.x - mySettingUI.size.width *0.4, myThemeLabel.position.y + mySettingUI.size.height *0.03, mySettingUI.size.width *0.8, 30);
+    myThemeSegmentedControl.tintColor = [UIColor brownColor];
+    UIFont *tmpFont = [UIFont boldSystemFontOfSize:20.0f];
+    NSDictionary *tmpDic = [NSDictionary dictionaryWithObject:tmpFont forKey:NSFontAttributeName];
+    [myThemeSegmentedControl setTitleTextAttributes:tmpDic forState:UIControlStateNormal];
+    [self.view addSubview:myThemeSegmentedControl];
     
     //反馈
     SKLabelNode *myFeedbackLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
@@ -428,10 +516,10 @@
     myAboutPNG.name = @"设置／关于";
     [mySettingUI addChild:myAboutPNG];
     
-//    [self runAction:[SKAction waitForDuration:0.5]];
+
 }
 - (void)mySetTutorial{
-    myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:@"Tutorial"];
+    myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementTutorial];
     myTutorialNode.position = CGPointMake(self.size.width/2, myGameRegionHeight *0.4 + myGameStartPoint);
     myTutorialNode.name =@"教程";
     myTutorialNode.zPosition = 6;
@@ -441,8 +529,9 @@
     NSMutableArray *myGameCharacterTextureArray = [[NSMutableArray alloc]init];
     
     for (int i = 0; i < myGameCharacterNumberOfFrames ; i ++) {
-        NSString *tmp = [NSString stringWithFormat:@"Bird%d",i];
-        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:tmp]];
+        NSString *tmp1 = [myThemeElementBird stringByAppendingString:@"%d"];
+        NSString *tmp2 = [NSString stringWithFormat:tmp1,i];
+        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:tmp2]];
     }
 //    for (int i = myGameCharacterNumberOfFrames - 1; i >= 0 ; i --) {
 //        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:[NSString stringWithFormat:@"Bird%d",i]]];
@@ -455,7 +544,7 @@
 }
 - (void)mySetBackGround{
     
-    myBackGround = [[SKSpriteNode alloc]initWithImageNamed:@"Background"];
+    myBackGround = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementBackground];
     
     myBackGround.anchorPoint = CGPointMake(0.5, 1.0);
     myBackGround.position = CGPointMake(self.size.width/2, self.size.height);
@@ -480,7 +569,7 @@
 - (void)mySetFrontGround{
 
     for (int i = 0; i < myFrontGroundTotal; i++) {
-        myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:@"Ground"];
+        myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementGround];
         
         myFrontGround.anchorPoint = CGPointMake(0, 1.0);
 //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
@@ -495,7 +584,7 @@
 }
 
 - (void)mySetGameCharacter{
-    myGameCharacter = [[SKSpriteNode alloc]initWithImageNamed:@"Bird0"];
+    myGameCharacter = [[SKSpriteNode alloc]initWithImageNamed:[myThemeElementBird stringByAppendingString:@"0"]];
     myGameCharacter.position = CGPointMake(self.view.frame.size.width*0.2, myGameRegionHeight*0.4 + myGameStartPoint);
     myGameCharacter.zPosition = 3;
     
@@ -538,7 +627,7 @@
 }
 
 - (void)mySetGameCharacterHat{
-    myGameCharacterHat = [[SKSpriteNode alloc]initWithImageNamed:@"Hat"];
+    myGameCharacterHat = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementHat];
     myGameCharacterHat.position = CGPointMake(myGameCharacter.size.width/4, myGameCharacter.size.height/2);
     myGameCharacterHat.zPosition = 3;
     [myGameCharacter addChild:myGameCharacterHat];
@@ -564,7 +653,7 @@
             [self mySetBest:myCurrentScore];
         }
         
-        SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:@"Scorecard"];
+        SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementScorecard];
         myScorecard.position = CGPointMake(self.size.width/2, self.size.height/2);
         myScorecard.zPosition = 6;
         [myWorldNode addChild:myScorecard];
@@ -607,7 +696,7 @@
         [myScorecard addChild:myScoreBest];
         
         //OK
-        SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonLeft"];
+        SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
         myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
         myOKBtn.zPosition = 6;
         [myWorldNode addChild:myOKBtn];
@@ -624,7 +713,7 @@
         
         
         //右边的按钮
-        SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:@"ButtonRight"];
+        SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonRight];
         myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
         myRightBtn.zPosition = 6;
         [myWorldNode addChild:myRightBtn];
@@ -638,6 +727,20 @@
     
 }
 #pragma mark 游戏事件
+//UISegmentedControl事件
+- (void)mySegmentedControlChange:(UISegmentedControl *)sender{
+    if (sender.selectedSegmentIndex == 0) {
+        NSLog(@"普通");
+        myCurrentGameTheme = 0;
+        [self mySetTheme:0];
+    } else if (sender.selectedSegmentIndex ==1) {
+        NSLog(@"牛仔");
+        myCurrentGameTheme = 1;
+        [self mySetTheme:1];
+    }
+    [self mySwitchToNewGame];
+}
+
 //创建障碍物
 - (SKSpriteNode *)myCreateObstacle:(NSString *)myPNG{
     myObstacle = [[SKSpriteNode alloc]initWithImageNamed:myPNG];
@@ -672,7 +775,7 @@
 - (void)myGenerateObstacle{
     
     //Bottom
-    SKSpriteNode *myBottom = [self myCreateObstacle:@"Bottom"];
+    SKSpriteNode *myBottom = [self myCreateObstacle:myThemeElementBottom];
 //    CGFloat myStartXCoordinate = self.size.width/2;
     CGFloat myStartXCoordinate = self.size.width + myBottom.size.width/2;
     
@@ -711,7 +814,7 @@
     
     
     //Top
-    SKSpriteNode *myTop = [self myCreateObstacle:@"Top"];
+    SKSpriteNode *myTop = [self myCreateObstacle:myThemeElementTop];
     myTop.zRotation = DEGREES_TO_RADIANS(180);
     myTop.position = CGPointMake(myStartXCoordinate, myBottom.position.y + myBottom.size.height/2 + myTop.size.height/2 + myGameCharacter.size.height * myGapCoefficient);
     myTop.name = @"顶部障碍";
@@ -1030,19 +1133,25 @@
 #pragma mark 游戏状态
 - (void)mySwitchToMainMenu{
     
+    [self myDefineTheme];
+    
     if (myCurrentGameMode == 1) {
         myCurrentGameState = myGame;
         [self mySetBackGround];
         [self mySetFrontGround];
         [self mySetGameCharacter];
-        [self mySetGameCharacterHat];
+        if (myCurrentGameTheme == 1) {
+            [self mySetGameCharacterHat];
+        }
         
     } else{
         myCurrentGameState = myMainMenu;
         [self mySetBackGround];
         [self mySetFrontGround];
         [self mySetGameCharacter];
-        [self mySetGameCharacterHat];
+        if (myCurrentGameTheme == 1) {
+            [self mySetGameCharacterHat];
+        }
         [self mySetMainMenu];
     }
     
@@ -1121,6 +1230,9 @@
     SKTransition *mySwitchToNewGameEffects = [SKTransition fadeWithColor:[SKColor blackColor] duration:0.3];
     [self.view presentScene:myNewGame transition:mySwitchToNewGameEffects];
     
+    //
+    [myThemeSegmentedControl removeFromSuperview];
+    
 }
 
 - (void)mySwitchToEndGame{
@@ -1129,7 +1241,7 @@
 }
 
 #pragma mark 持久化存储
-//分数
+//最高分
 - (NSInteger)myBest{
     return [NSUserDefaults.standardUserDefaults integerForKey:@"最高分"];
 }
@@ -1138,6 +1250,16 @@
     [NSUserDefaults.standardUserDefaults synchronize];
 }
 
+//游戏主题
+- (NSInteger)myTheme{
+    return [NSUserDefaults.standardUserDefaults integerForKey:@"游戏主题"];
+}
+- (void)mySetTheme:(NSInteger)myTheme{
+    [NSUserDefaults.standardUserDefaults setInteger:myTheme forKey:@"游戏主题"];
+    [NSUserDefaults.standardUserDefaults synchronize];
+}
+
+#pragma mark 碰撞检测
 //物体碰撞
 - (void)didBeginContact:(SKPhysicsContact *)contact{
     

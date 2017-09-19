@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "tap.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "BirdNormal2.png",
       "scale" : "2x"
     },
     {
