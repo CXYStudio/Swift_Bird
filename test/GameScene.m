@@ -10,6 +10,7 @@
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 #import "GameScene.h"
+
 //typedef enum _myCoverage{
 //    myBackGround,
 //    myObstacle,
@@ -34,6 +35,9 @@
     SKSpriteNode *myGameCharacter;
     SKSpriteNode *myGameCharacterHat;
     SKSpriteNode *myTutorialNode;
+    
+    //记分板
+    SKSpriteNode *myScorecard;
     
     //开始界面按钮
     SKSpriteNode *myClassicalBtn;
@@ -653,8 +657,8 @@
             [self mySetBest:myCurrentScore];
         }
         
-        SKSpriteNode *myScorecard = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementScorecard];
-        myScorecard.position = CGPointMake(self.size.width/2, self.size.height/2);
+        myScorecard = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementScorecard];
+        myScorecard.position = CGPointMake(self.size.width/2, self.size.height * 0.55);
         myScorecard.zPosition = 6;
         [myWorldNode addChild:myScorecard];
         
@@ -697,7 +701,7 @@
         
         //OK
         SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
-        myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+        myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2);
         myOKBtn.zPosition = 6;
         [myWorldNode addChild:myOKBtn];
         
@@ -714,7 +718,8 @@
         
         //右边的按钮
         SKSpriteNode *myRightBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonRight];
-        myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2 - myTopBlank - myOKBtn.size.height/2);
+        myRightBtn.position = CGPointMake(self.size.width*0.7, self.size.height/2 - myScorecard.size.height/2);
+        myRightBtn.name = @"分享";
         myRightBtn.zPosition = 6;
         [myWorldNode addChild:myRightBtn];
         
@@ -724,6 +729,7 @@
         myShareBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
         [myShareBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
         myShareBtnLabel.text = @"分享";
+        myShareBtnLabel.name = @"分享";
         myShareBtnLabel.zPosition = 6;
         [myRightBtn addChild:myShareBtnLabel];
         
@@ -943,6 +949,14 @@
         case 4:                 //myDisplayScore
             if (myCurrentGameMode != 1) {
                 [self mySwitchToEndGame];
+                if ([node.name isEqualToString:@"分享"]) {
+                    //分享按钮
+#pragma mark 分享
+                    NSLog(@"分享按钮");
+                    [self myShare];
+                    
+                    
+                }
             } else if (myCurrentGameMode == 1){
                 [self mySwitchToNewGame];
             }
@@ -956,6 +970,66 @@
             break;
     }
 }
+- (void)myShare{
+    CGSize size = self.view.bounds.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    CGRect rect = self.view.frame;
+    //  自iOS7开始，UIView类提供了一个方法-drawViewHierarchyInRect:afterScreenUpdates: 它允许你截取一个UIView或者其子类中的内容，并且以位图的形式（bitmap）保存到UIImage中
+    [self.view drawViewHierarchyInRect:rect afterScreenUpdates:YES];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIGraphicsBeginImageContext(image.size);
+    
+    // Draw image1
+    [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+    
+    
+    // Draw image2
+    UIImage *QRCode = [UIImage imageNamed:@"QRCode.png"];
+    [QRCode drawInRect:CGRectMake(0, self.view.bounds.size.height*0.8, QRCode.size.width, QRCode.size.height)];
+    
+    // Draw image3
+    UIImage *QRCodeHint = [UIImage imageNamed:@"QRCodeHint"];
+    [QRCodeHint drawInRect:CGRectMake(QRCode.size.width, self.view.bounds.size.height*0.8, QRCodeHint.size.width/2, QRCodeHint.size.height/2)];
+    
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    //数组中放入分享的内容
+    
+    NSArray *activityItems = [NSArray arrayWithObject:resultImage];
+    
+    // 实现服务类型控制器
+    
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    
+    [self.view.window.rootViewController presentViewController:activityViewController animated:YES completion:nil];
+    
+    // 分享类型
+    
+    
+    [activityViewController setCompletionWithItemsHandler:^(NSString * __nullable activityType, BOOL completed, NSArray * __nullable returnedItems, NSError * __nullable activityError){
+        
+        // 显示选中的分享类型
+        
+        NSLog(@"当前选择分享平台 %@",activityType);
+        
+        if (completed) {
+            
+            NSLog(@"分享成功");
+            
+        }else {
+            
+            NSLog(@"分享失败");
+            
+        }
+    }];
+    
+}
+
 #pragma mark 游戏模式(按钮)
 - (void)gameClassicalMode{
     myCurrentGameMode = 0;
@@ -994,7 +1068,7 @@
     SKAction *tmp2 = [SKAction removeFromParent];;
     SKAction *tmp = [SKAction sequence:@[tmp1,tmp2]];
     
-    //清楚界面元素
+    //清除界面元素
     [myWorldNode enumerateChildNodesWithName:@"主菜单／经典" usingBlock:^(SKNode *node, BOOL *stop) {
         [node runAction:tmp];
     }];

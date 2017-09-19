@@ -31,9 +31,13 @@
         
         // Present the scene.
         [skView presentScene:scene];
+        
     }
+    
+    
 
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
