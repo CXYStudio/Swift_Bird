@@ -256,10 +256,12 @@
     //end test
     
     //初始化图片元素
-    myThemePNG = [[SKSpriteNode alloc]initWithImageNamed:@"Theme"];
-    myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail"];
-    myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari"];
-    myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About"];
+    myThemePNG = [[SKSpriteNode alloc]initWithImageNamed:@"Theme.png"];
+//    myThemePNG = [[SKSpriteNode alloc]initWithTexture:[SKTexture textureWithImageNamed:@"Theme"]];
+    
+    myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail.png"];
+    myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari.png"];
+    myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About.png"];
     
     //分段控制器初始化
     myThemeArray = [NSArray arrayWithObjects:@"普通",@"牛仔", nil];
@@ -436,6 +438,7 @@
     mySettingUI.position = CGPointMake(self.size.width*0.5, self.size.height*0.5);
     mySettingUI.size = CGSizeMake(self.size.width*0.8, self.size.height*0.7);
     mySettingUI.zPosition = 6;
+    mySettingUI.name = @"设置";
     [myWorldNode addChild:mySettingUI];
     
     
@@ -467,6 +470,7 @@
     [mySettingUI addChild:myThemeLabel];
     
     myThemePNG.position = CGPointMake(mySettingUI.frame.origin.x, myThemeLabel.frame.origin.y + myThemeLabel.frame.size.height/2);
+    myThemePNG.zPosition = 6;
     myThemePNG.name = @"设置／主题";
     [mySettingUI addChild:myThemePNG];
     
@@ -489,6 +493,7 @@
     [mySettingUI addChild:myFeedbackLabel];
     
     myFeedbackPNG.position = CGPointMake(mySettingUI.frame.origin.x, myFeedbackLabel.frame.origin.y + myFeedbackLabel.frame.size.height/2);
+    myFeedbackPNG.zPosition = 6;
     myFeedbackPNG.name = @"设置／反馈";
     [mySettingUI addChild:myFeedbackPNG];
     
@@ -503,6 +508,7 @@
     [mySettingUI addChild:myWebLabel];
     
     myWebPNG.position = CGPointMake(mySettingUI.frame.origin.x, myWebLabel.frame.origin.y + myWebLabel.frame.size.height/2);
+    myWebPNG.zPosition = 6;
     myWebPNG.name = @"设置／网站";
     [mySettingUI addChild:myWebPNG];
     
@@ -517,6 +523,7 @@
     [mySettingUI addChild:myAboutLabel];
     
     myAboutPNG.position = CGPointMake(mySettingUI.frame.origin.x, myAboutLabel.frame.origin.y + myAboutLabel.frame.size.height/2);
+    myAboutPNG.zPosition = 6;
     myAboutPNG.name = @"设置／关于";
     [mySettingUI addChild:myAboutPNG];
     
@@ -928,6 +935,8 @@
             }
             if ([node.name isEqualToString:@"设置／返回"]) {
                 [self mySwitchToNewGame];
+                
+
             }
             if ([node.name isEqualToString:@"设置／反馈"]) {
                 NSMutableString *mailUrl = [[NSMutableString alloc] init];
@@ -945,6 +954,12 @@
             }
             if ([node.name isEqualToString:@"设置／网站"]) {
                 NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com/cn/"];
+                [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
+                    NSLog(@"Open %d",success);
+                }];
+            }
+            if ([node.name isEqualToString:@"设置／关于"]) {
+                NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com"];
                 [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
                     NSLog(@"Open %d",success);
                 }];
