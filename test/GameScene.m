@@ -328,7 +328,7 @@
 //设置主菜单UI
 -(void)mySetMainMenu{
     SKSpriteNode *myLogo = [[SKSpriteNode alloc]initWithImageNamed:@"logo_cn"];
-    myLogo.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.89);
+    myLogo.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.9);
     myLogo.zPosition = 6;
     myLogo.name = @"主菜单／Logo";
     [myWorldNode addChild:myLogo];
@@ -959,6 +959,8 @@
                 [mailUrl appendString:@"&body="];
                 
                 NSString *emailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+                
+                
 
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath] options:@{} completionHandler:nil];
                 
@@ -1163,6 +1165,7 @@
             [self myUpdateFrontGround];
             [self myHitObstacleCheck];
             [self myHitFrontGroundCheck];
+            [self myHitSkyCheck];
             [self myUpdateScore];
             break;
         case 3:                 //myFall
@@ -1191,6 +1194,7 @@
         myGameCharacter.position = CGPointMake(myGameCharacter.position.x, myGameStartPoint + myGameCharacter.size.height/2);
     }
     
+    
 }
 -(void)myUpdateFrontGround{
     
@@ -1214,6 +1218,12 @@
         //切换到跌落状态
         [self mySwitchToFall];
     
+    }
+}
+- (void)myHitSkyCheck{
+    NSLog(@"%f",myGameCharacter.position.y);
+    if (myGameCharacter.position.y >= self.view.bounds.size.height) {
+        myGameCharacter.position = CGPointMake(myGameCharacter.position.x, self.view.bounds.size.height);
     }
 }
 - (void)myHitFrontGroundCheck{
