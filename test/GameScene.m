@@ -507,7 +507,7 @@
     [mySettingUI addChild:myThemePNG];
     
     
-    myThemeSegmentedControl.frame = CGRectMake(mySettingUI.position.x - mySettingUI.size.width *0.4, myThemeLabel.position.y + mySettingUI.size.height *0.03, mySettingUI.size.width *0.8, 30);
+    myThemeSegmentedControl.frame = CGRectMake(mySettingUI.position.x - mySettingUI.size.width *0.45, myThemeLabel.position.y + mySettingUI.size.height *0.03, mySettingUI.size.width *0.9, 30);
     myThemeSegmentedControl.tintColor = [UIColor brownColor];
     UIFont *tmpFont = [UIFont boldSystemFontOfSize:20.0f];
     NSDictionary *tmpDic = [NSDictionary dictionaryWithObject:tmpFont forKey:NSFontAttributeName];
