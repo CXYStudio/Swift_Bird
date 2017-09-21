@@ -21,6 +21,8 @@
 		1E5997711F690FC10077B324 /* hitGround.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E59976B1F690FC10077B324 /* hitGround.wav */; };
 		1E5997721F690FC10077B324 /* pop.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E59976C1F690FC10077B324 /* pop.wav */; };
 		1E5997731F690FC10077B324 /* whack.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E59976D1F690FC10077B324 /* whack.wav */; };
+		1EB73CF91F73D955000791AE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB73CFB1F73D955000791AE /* InfoPlist.strings */; };
+		1EB73CFF1F73D9DA000791AE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1EB73D011F73D9DA000791AE /* Localizable.strings */; };
 		1EC0065C1F651035005AA17B /* falling.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1EC0065B1F651035005AA17B /* falling.wav */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +80,12 @@
 		1E59976B1F690FC10077B324 /* hitGround.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitGround.wav; sourceTree = "<group>"; };
 		1E59976C1F690FC10077B324 /* pop.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop.wav; sourceTree = "<group>"; };
 		1E59976D1F690FC10077B324 /* whack.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = whack.wav; sourceTree = "<group>"; };
+		1EB73CEF1F73D7E1000791AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		1EB73CF01F73D7E2000791AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		1EB73CFA1F73D955000791AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1EB73CFC1F73D957000791AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		1EB73D001F73D9DA000791AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1EB73D021F73D9DC000791AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1EC0065B1F651035005AA17B /* falling.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = falling.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -129,6 +137,8 @@
 		1E2E07821F611C8F0052028A /* test */ = {
 			isa = PBXGroup;
 			children = (
+				1EB73CFB1F73D955000791AE /* InfoPlist.strings */,
+				1EB73D011F73D9DA000791AE /* Localizable.strings */,
 				1EC0065A1F650FFB005AA17B /* Sounds */,
 				1E2E07861F611C8F0052028A /* AppDelegate.h */,
 				1E2E07871F611C8F0052028A /* AppDelegate.m */,
@@ -274,6 +284,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 1E2E07771F611C8F0052028A;
 			productRefGroup = 1E2E07811F611C8F0052028A /* Products */;
@@ -294,6 +305,7 @@
 			files = (
 				1E5997721F690FC10077B324 /* pop.wav in Resources */,
 				1E5997701F690FC10077B324 /* flapping.wav in Resources */,
+				1EB73CFF1F73D9DA000791AE /* Localizable.strings in Resources */,
 				1E59976E1F690FC10077B324 /* coin.wav in Resources */,
 				1EC0065C1F651035005AA17B /* falling.wav in Resources */,
 				1E2E07951F611C8F0052028A /* Main.storyboard in Resources */,
@@ -301,6 +313,7 @@
 				1E2E07971F611C8F0052028A /* Assets.xcassets in Resources */,
 				1E2E079A1F611C8F0052028A /* LaunchScreen.storyboard in Resources */,
 				1E5997731F690FC10077B324 /* whack.wav in Resources */,
+				1EB73CF91F73D955000791AE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +381,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1E2E07941F611C8F0052028A /* Base */,
+				1EB73CEF1F73D7E1000791AE /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -376,8 +390,27 @@
 			isa = PBXVariantGroup;
 			children = (
 				1E2E07991F611C8F0052028A /* Base */,
+				1EB73CF01F73D7E2000791AE /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		1EB73CFB1F73D955000791AE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1EB73CFA1F73D955000791AE /* en */,
+				1EB73CFC1F73D957000791AE /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1EB73D011F73D9DA000791AE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1EB73D001F73D9DA000791AE /* en */,
+				1EB73D021F73D9DC000791AE /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -387,6 +420,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -444,6 +478,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

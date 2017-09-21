@@ -10,7 +10,7 @@
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 #import "GameScene.h"
-
+#import <Foundation/Foundation.h>
 //typedef enum _myCoverage{
 //    myBackGround,
 //    myObstacle,
@@ -264,7 +264,7 @@
     myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About.png"];
     
     //分段控制器初始化
-    myThemeArray = [NSArray arrayWithObjects:@"普通",@"牛仔",@"城市", nil];
+    myThemeArray = [NSArray arrayWithObjects:NSLocalizedString(@"Normal Theme", nil),NSLocalizedString(@"Cowboy Theme", nil),NSLocalizedString(@"City Theme", nil), nil];
     myThemeSegmentedControl = [[UISegmentedControl alloc]initWithItems:myThemeArray];
     
     //UISegmentedControl事件
@@ -339,7 +339,8 @@
 }
 //设置主菜单UI
 -(void)mySetMainMenu{
-    SKSpriteNode *myLogo = [[SKSpriteNode alloc]initWithImageNamed:@"logo_cn"];
+//    SKSpriteNode *myLogo = [[SKSpriteNode alloc]initWithImageNamed:@"logo_cn"];
+    SKSpriteNode *myLogo = [[SKSpriteNode alloc]initWithImageNamed:NSLocalizedString(@"logo", nil)];//本地化
     myLogo.position = CGPointMake(self.size.width * 0.5, self.size.height * 0.9);
     myLogo.zPosition = 6;
     myLogo.name = @"主菜单／Logo";
@@ -364,11 +365,12 @@
     //    [myPlayBtn addChild:myPlayBtnPNG];
     
     myClassicalBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myClassicalBtnLabel setFontSize:23];
     [myClassicalBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myClassicalBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     NSLog(@"##myPlayBtnLabel.position:%f,%f",myClassicalBtnLabel.position.x,myClassicalBtnLabel.position.y);
     [myClassicalBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myClassicalBtnLabel.text = @"经典";
+    myClassicalBtnLabel.text = NSLocalizedString(@"Classical Mode", nil);
     myClassicalBtnLabel.zPosition = 6;
     myClassicalBtnLabel.name = @"主菜单／经典";
     [myClassicalBtn addChild:myClassicalBtnLabel];
@@ -381,10 +383,11 @@
     [myWorldNode addChild:myTrainBtn];
     
     myTrainBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myTrainBtnLabel setFontSize:23];
     [myTrainBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myTrainBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myTrainBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myTrainBtnLabel.text = @"训练";
+    myTrainBtnLabel.text = NSLocalizedString(@"Training Mode", nil);
     myTrainBtnLabel.zPosition = 6;
     myTrainBtnLabel.name = @"主菜单／训练";
     [myTrainBtn addChild:myTrainBtnLabel];
@@ -397,10 +400,11 @@
     [myWorldNode addChild:myInsaneBtn];
     
     myInsaneBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myInsaneBtnLabel setFontSize:23];
     [myInsaneBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myInsaneBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myInsaneBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myInsaneBtnLabel.text = @"疯狂";
+    myInsaneBtnLabel.text = NSLocalizedString(@"Insane Mode", nil);
     myInsaneBtnLabel.zPosition = 6;
     myInsaneBtnLabel.name = @"主菜单／疯狂";
     [myInsaneBtn addChild:myInsaneBtnLabel];
@@ -413,10 +417,11 @@
     [myWorldNode addChild:myARBtn];
     
     myARBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myARBtnLabel setFontSize:23];
     [myARBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myARBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myARBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myARBtnLabel.text = @"AR";
+    myARBtnLabel.text = NSLocalizedString(@"AR", nil);
     myARBtnLabel.zPosition = 6;
     myARBtnLabel.name = @"主菜单／AR";
     [myARBtn addChild:myARBtnLabel];
@@ -429,10 +434,11 @@
     [myWorldNode addChild:myRankingBtn];
     
     myRankingBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myRankingBtnLabel setFontSize:23];
     [myRankingBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myRankingBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myRankingBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myRankingBtnLabel.text = @"排行";
+    myRankingBtnLabel.text = NSLocalizedString(@"Ranking", nil);
     myRankingBtnLabel.zPosition = 6;
     myRankingBtnLabel.name = @"主菜单／排行";
     [myRankingBtn addChild:myRankingBtnLabel];
@@ -445,10 +451,11 @@
     [myWorldNode addChild:mySettingBtn];
     
     mySettingBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [mySettingBtnLabel setFontSize:23];
     [mySettingBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     mySettingBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [mySettingBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    mySettingBtnLabel.text = @"设置";
+    mySettingBtnLabel.text = NSLocalizedString(@"Settings", nil);
     mySettingBtnLabel.zPosition = 6;
     mySettingBtnLabel.name = @"主菜单／设置";
     [mySettingBtn addChild:mySettingBtnLabel];
@@ -473,21 +480,23 @@
     [myWorldNode addChild:myOKBtn];
     
     SKLabelNode *myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myOKBtnLabel setFontSize:23];
     myOKBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
     [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myOKBtnLabel.text = @"返回";
+    myOKBtnLabel.text = NSLocalizedString(@"Back", nil);
     myOKBtnLabel.zPosition = 6;
     myOKBtnLabel.name = @"设置／返回";
     [myOKBtn addChild:myOKBtnLabel];
     
     //主题
     SKLabelNode *myThemeLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myThemeLabel setFontSize:23];
     [myThemeLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myThemeLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y + mySettingUI.size.height * 0.2);
     [myThemeLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myThemeLabel.text = @"主题";
+    myThemeLabel.text = NSLocalizedString(@"Themes", nil);
     myThemeLabel.name = @"设置／主题";
     myThemeLabel.zPosition = 6;
     [mySettingUI addChild:myThemeLabel];
@@ -507,10 +516,11 @@
     
     //反馈
     SKLabelNode *myFeedbackLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myFeedbackLabel setFontSize:23];
     [myFeedbackLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myFeedbackLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.1);
     [myFeedbackLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myFeedbackLabel.text = @"反馈";
+    myFeedbackLabel.text = NSLocalizedString(@"Feedback", nil);
     myFeedbackLabel.name = @"设置／反馈";
     myFeedbackLabel.zPosition = 6;
     [mySettingUI addChild:myFeedbackLabel];
@@ -522,10 +532,11 @@
     
     //访问网站
     SKLabelNode *myWebLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myWebLabel setFontSize:23];
     [myWebLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myWebLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.3);
     [myWebLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myWebLabel.text = @"网站";
+    myWebLabel.text = NSLocalizedString(@"Website", nil);
     myWebLabel.name = @"设置／网站";
     myWebLabel.zPosition = 6;
     [mySettingUI addChild:myWebLabel];
@@ -537,10 +548,11 @@
     
     //关于
     SKLabelNode *myAboutLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
+    [myAboutLabel setFontSize:23];
     [myAboutLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
     myAboutLabel.position = CGPointMake(CGPointZero.x - mySettingUI.frame.size.width *0.1, mySettingUI.frame.origin.y - mySettingUI.size.height * 0.5);
     [myAboutLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-    myAboutLabel.text = @"关于";
+    myAboutLabel.text = NSLocalizedString(@"About us", nil);
     myAboutLabel.name = @"设置／关于";
     myAboutLabel.zPosition = 6;
     [mySettingUI addChild:myAboutLabel];
@@ -706,7 +718,7 @@
         [myScoreCurrent setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
         myScoreCurrent.position = CGPointMake(-myScorecard.size.width/4, myScorecard.size.height/4);
         [myScoreCurrent setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-        myScoreCurrent.text = @"得分";
+        myScoreCurrent.text = NSLocalizedString(@"Score", nil);
         myScoreCurrent.zPosition = 6;
         [myScorecard addChild:myScoreCurrent];
         
@@ -725,7 +737,7 @@
         [myScoreBest setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
         myScoreBest.position = CGPointMake(myScorecard.size.width/4, myScorecard.size.height/4);
         [myScoreBest setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-        myScoreBest.text = @"最高分";
+        myScoreBest.text = NSLocalizedString(@"Best", nil);
         myScoreBest.zPosition = 6;
         [myScorecard addChild:myScoreBest];
         
@@ -740,7 +752,7 @@
         [myOKBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
         myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
         [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-        myOKBtnLabel.text = @"返回";
+        myOKBtnLabel.text = NSLocalizedString(@"Back", nil);
         myOKBtnLabel.zPosition = 6;
         [myOKBtn addChild:myOKBtnLabel];
         
@@ -758,7 +770,7 @@
         [myShareBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
         myShareBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
         [myShareBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
-        myShareBtnLabel.text = @"分享";
+        myShareBtnLabel.text = NSLocalizedString(@"Share", nil);
         myShareBtnLabel.name = @"分享";
         myShareBtnLabel.zPosition = 6;
         [myRightBtn addChild:myShareBtnLabel];

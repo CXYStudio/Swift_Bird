@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  test
+  ##简体中文##
+  Created by 曹修远 on 21/09/2017.
+  Copyright © 2017 曹修远. All rights reserved.
+*/
+"logo" = "logo_cn";
+"Classical Mode" = "经典";
+"Training Mode" = "训练";
+"Insane Mode" = "疯狂";
+"AR" = "AR";
+"Ranking" = "排行";
+"Settings" = "设置";
+"Themes" = "主题";
+"Normal Theme" = "普通";
+"Cowboy Theme" = "牛仔";
+"City Theme" = "城市";
+"Feedback" = "反馈";
+"Website" = "网站";
+"About us" = "关于我们";
+"Back" = "返回";
+"Score" = "分数";
+"Best" = "最高分";
+"Share" = "分享";

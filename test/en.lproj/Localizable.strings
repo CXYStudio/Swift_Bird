@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  test
+  ##English##
+  Created by 曹修远 on 21/09/2017.
+  Copyright © 2017 曹修远. All rights reserved.
+*/
+"logo" = "logo_us";
+"Classical Mode" = "Classical";
+"Training Mode" = "Training";
+"Insane Mode" = "Insane";
+"AR" = "AR";
+"Ranking" = "Ranking";
+"Settings" = "Settings";
+"Themes" = "Themes";
+"Normal Theme" = "Nomal";
+"Cowboy Theme" = "Cowboy";
+"City Theme" = "City";
+"Feedback" = "Feedback";
+"Website" = "Website";
+"About us" = "About us";
+"Back" = "Back";
+"Score" = "Score";
+"Best" = "Best";
+"Share" = "Share";
