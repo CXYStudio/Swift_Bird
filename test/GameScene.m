@@ -41,7 +41,7 @@
     
     //开始界面按钮
     SKSpriteNode *myClassicalBtn;
-//    SKSpriteNode *myPlayBtnPNG;
+    //    SKSpriteNode *myPlayBtnPNG;
     SKLabelNode *myClassicalBtnLabel;
     
     SKSpriteNode *myTrainBtn;
@@ -114,7 +114,7 @@
     SKAction *mySoundHitFrontGround;
     SKAction *mySoundPop;
     SKAction *mySoundWhack;
-
+    
     
     //顶部分数
     CGFloat myTopBlank;
@@ -131,7 +131,7 @@
     int mySettingMode;
     
     int myCurrentGameMode;
-
+    
     
     //游戏主题
     int myNomalTheme;
@@ -222,8 +222,8 @@
     mySoundPop = [SKAction playSoundFileNamed:@"pop.wav" waitForCompletion:NO];
     mySoundWhack = [SKAction playSoundFileNamed:@"whack.wav" waitForCompletion:NO];
     
-//    [self runAction:[SKAction sequence:@[mySoundFall,mySoundFly,mySoundGetPoint,mySoundHitFrontGround,mySoundPop,mySoundWhack]]];
-
+    //    [self runAction:[SKAction sequence:@[mySoundFall,mySoundFly,mySoundGetPoint,mySoundHitFrontGround,mySoundPop,mySoundWhack]]];
+    
     //顶部分数
     myTopBlank = 20.0;
     myTopBlankTypeface = @"AmericanTypewriter-Bold";
@@ -238,7 +238,7 @@
     mySettingMode =5;
     
     myCurrentGameMode = 0;
-//    myCurrentGameModeString = @"";
+    //    myCurrentGameModeString = @"";
     
     //游戏主题
     myNomalTheme = 0;
@@ -257,14 +257,14 @@
     
     //初始化图片元素
     myThemePNG = [[SKSpriteNode alloc]initWithImageNamed:@"Theme.png"];
-//    myThemePNG = [[SKSpriteNode alloc]initWithTexture:[SKTexture textureWithImageNamed:@"Theme"]];
+    //    myThemePNG = [[SKSpriteNode alloc]initWithTexture:[SKTexture textureWithImageNamed:@"Theme"]];
     
     myFeedbackPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Mail.png"];
     myWebPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Safari.png"];
     myAboutPNG = [[SKSpriteNode alloc]initWithImageNamed:@"About.png"];
     
     //分段控制器初始化
-    myThemeArray = [NSArray arrayWithObjects:@"普通",@"牛仔", nil];
+    myThemeArray = [NSArray arrayWithObjects:@"普通",@"牛仔",@"城市", nil];
     myThemeSegmentedControl = [[UISegmentedControl alloc]initWithItems:myThemeArray];
     
     //UISegmentedControl事件
@@ -318,7 +318,19 @@
             myThemeElementTop = @"Top";
             myThemeElementTutorial = @"Tutorial";
             break;
-            
+        case 2:
+            //全局主题元素变量
+            myThemeElementBackground = @"BackgroundCity";
+            myThemeElementBird = @"BirdCity";
+            myThemeElementBottom = @"BottomCity";
+            myThemeElementButtonLeft = @"ButtonLeftCity";
+            myThemeElementButtonRight = @"ButtonRightCity";
+            myThemeElementGround = @"GroundCity";
+            myThemeElementHat = @"";
+            myThemeElementScorecard = @"ScorecardCity";
+            myThemeElementTop = @"TopCity";
+            myThemeElementTutorial = @"TutorialCity";
+            break;
             
         default:
             break;
@@ -347,9 +359,9 @@
     myClassicalBtn.zPosition = 6;
     [myWorldNode addChild:myClassicalBtn];
     
-//    myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
-//    myPlayBtnPNG.position =CGPointZero;
-//    [myPlayBtn addChild:myPlayBtnPNG];
+    //    myPlayBtnPNG = [[SKSpriteNode alloc]initWithImageNamed:@"Play"];
+    //    myPlayBtnPNG.position =CGPointZero;
+    //    [myPlayBtn addChild:myPlayBtnPNG];
     
     myClassicalBtnLabel = [[SKLabelNode alloc]initWithFontNamed:myTopBlankTypeface];
     [myClassicalBtnLabel setFontColor:[UIColor colorWithRed:101.0/255.0 green:71.0/255.0 blue:73.0/255.0 alpha:1.0]];
@@ -538,7 +550,7 @@
     myAboutPNG.name = @"设置／关于";
     [mySettingUI addChild:myAboutPNG];
     
-
+    
 }
 - (void)mySetTutorial{
     myTutorialNode = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementTutorial];
@@ -555,9 +567,9 @@
         NSString *tmp2 = [NSString stringWithFormat:tmp1,i];
         [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:tmp2]];
     }
-//    for (int i = myGameCharacterNumberOfFrames - 1; i >= 0 ; i --) {
-//        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:[NSString stringWithFormat:@"Bird%d",i]]];
-//    }
+    //    for (int i = myGameCharacterNumberOfFrames - 1; i >= 0 ; i --) {
+    //        [myGameCharacterTextureArray addObject:[SKTexture textureWithImageNamed:[NSString stringWithFormat:@"Bird%d",i]]];
+    //    }
     
     SKAction *myGameCharacterWingAnimation = [SKAction animateWithTextures:myGameCharacterTextureArray timePerFrame:0.07];
     [myGameCharacter runAction:[SKAction repeatActionForever:myGameCharacterWingAnimation]];
@@ -589,12 +601,12 @@
 }
 
 - (void)mySetFrontGround{
-
+    
     for (int i = 0; i < myFrontGroundTotal; i++) {
         myFrontGround = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementGround];
         
         myFrontGround.anchorPoint = CGPointMake(0, 1.0);
-//        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
+        //        myFrontGround.position = CGPointMake((CGFloat)i * myFrontGround.size.width, myGameStartPoint);
         myFrontGround.position = CGPointMake((CGFloat)i * self.view.frame.size.width, myGameStartPoint);
         myFrontGround.zPosition = 2;
         myFrontGround.size = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height*0.3);
@@ -602,7 +614,7 @@
         [myWorldNode addChild:myFrontGround];
         NSLog(@"第%d个前地面Set",i);
     }
-
+    
 }
 
 - (void)mySetGameCharacter{
@@ -753,7 +765,7 @@
         
         
         //添加记分板动画组
-
+        
     }
     
 }
@@ -764,10 +776,14 @@
         NSLog(@"普通");
         myCurrentGameTheme = 0;
         [self mySetTheme:0];
-    } else if (sender.selectedSegmentIndex ==1) {
+    } else if (sender.selectedSegmentIndex == 1) {
         NSLog(@"牛仔");
         myCurrentGameTheme = 1;
         [self mySetTheme:1];
+    } else if (sender.selectedSegmentIndex == 2) {
+        NSLog(@"城市");
+        myCurrentGameTheme = 2;
+        [self mySetTheme:2];
     }
     [self mySwitchToNewGame];
 }
@@ -807,7 +823,7 @@
     
     //Bottom
     SKSpriteNode *myBottom = [self myCreateObstacle:myThemeElementBottom];
-//    CGFloat myStartXCoordinate = self.size.width/2;
+    //    CGFloat myStartXCoordinate = self.size.width/2;
     CGFloat myStartXCoordinate = self.size.width + myBottom.size.width/2;
     
     int myRandomValue = arc4random()% 6 + 1; //取随机数
@@ -836,8 +852,8 @@
             
             break;
     }
-//    CGFloat myYMin = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myMinimumCoefficient;
-//    CGFloat myYMax = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myMaximumCoefficient;
+    //    CGFloat myYMin = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myMinimumCoefficient;
+    //    CGFloat myYMax = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myMaximumCoefficient;
     CGFloat myY = myGameStartPoint - myBottom.size.height/2 + myGameRegionHeight * myCoefficient;
     myBottom.position = CGPointMake(myStartXCoordinate, myY);
     myBottom.name = @"底部障碍";
@@ -861,7 +877,7 @@
     SKAction *myMoveAction = [SKAction sequence:@[myMoveAction1,myMoveAction2]];
     
     [myBottom runAction:myMoveAction];
-
+    
     [myTop runAction:myMoveAction];
     
     
@@ -920,14 +936,14 @@
     
     NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
     UITouch *touch = [allTouches anyObject];   //视图中的所有对象
-//    CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
+    //    CGPoint point = [touch locationInView:[touch view]]; //返回触摸点在视图中的当前坐标
     
     
     CGPoint location = [touch locationInNode:self];
     SKNode *node = [self nodeAtPoint:location];
     
-//    NSLog(@"point: %f,%f",point.x,point.y);
-//    NSLog(@"myCurrentGameState:%d",myCurrentGameState);
+    //    NSLog(@"point: %f,%f",point.x,point.y);
+    //    NSLog(@"myCurrentGameState:%d",myCurrentGameState);
     //根据游戏Status
     switch (myCurrentGameState) {
         case 0:                 //myMainMenu
@@ -947,7 +963,7 @@
             if ([node.name isEqualToString:@"设置／返回"]) {
                 [self mySwitchToNewGame];
                 
-
+                
             }
             if ([node.name isEqualToString:@"设置／反馈"]) {
                 NSMutableString *mailUrl = [[NSMutableString alloc] init];
@@ -961,7 +977,7 @@
                 NSString *emailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
                 
                 
-
+                
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath] options:@{} completionHandler:nil];
                 
             }
@@ -1181,7 +1197,7 @@
             break;
     }
     
-
+    
 }
 -(void)myUpdateGameCharacter{
     CGPoint kAcceleratedVelocity = CGPointMake(0, myGravity);
@@ -1208,7 +1224,7 @@
             }
             
         }
-     
+        
     }];
 }
 - (void)myHitObstacleCheck{
@@ -1217,7 +1233,7 @@
         [self runAction:mySoundWhack];
         //切换到跌落状态
         [self mySwitchToFall];
-    
+        
     }
 }
 - (void)myHitSkyCheck{
@@ -1243,10 +1259,10 @@
     [myWorldNode enumerateChildNodesWithName:@"顶部障碍" usingBlock:^(SKNode *node, BOOL *stop) {
         NSString *passObstacle = @"已通过";
         
-
+        
         if ([[node.userData objectForKey:@"通过与否"] isEqual: passObstacle]) {
             
-//            NSLog(@"已经加了分数");
+            //            NSLog(@"已经加了分数");
             
         } else if (myGameCharacter.position.x > node.position.x + myObstacle.size.width/2) {
             myCurrentScore ++;
@@ -1348,7 +1364,7 @@
     
     [self myStopGenerateObstacle];
     
-//    [self mySwitchToDisplayScore];
+    //    [self mySwitchToDisplayScore];
     
 }
 - (void)mySwitchToDisplayScore{
@@ -1400,11 +1416,11 @@
     
     SKPhysicsBody *myBeHitObj = [[SKPhysicsBody alloc]init];
     
-//    NSLog(@"contact.bodyA.contactTestBitMask:%u",contact.bodyA.contactTestBitMask);
-//    NSLog(@"contact.bodyB.contactTestBitMask:%u",contact.bodyB.contactTestBitMask);
-//    
-//    NSLog(@"contact.bodyA.categoryBitMask:%u",contact.bodyA.categoryBitMask);
-//    NSLog(@"contact.bodyB.categoryBitMask:%u",contact.bodyB.categoryBitMask);
+    //    NSLog(@"contact.bodyA.contactTestBitMask:%u",contact.bodyA.contactTestBitMask);
+    //    NSLog(@"contact.bodyB.contactTestBitMask:%u",contact.bodyB.contactTestBitMask);
+    //
+    //    NSLog(@"contact.bodyA.categoryBitMask:%u",contact.bodyA.categoryBitMask);
+    //    NSLog(@"contact.bodyB.categoryBitMask:%u",contact.bodyB.categoryBitMask);
     
     if (contact.bodyA.contactTestBitMask == physicsGameCharacter) {
         myBeHitObj =  contact.bodyA;
@@ -1412,7 +1428,7 @@
     } else {
         myBeHitObj =  contact.bodyB;
     }
-//    NSLog(@"myBeHitObj.categoryBitMask:%u",myBeHitObj.categoryBitMask);
+    //    NSLog(@"myBeHitObj.categoryBitMask:%u",myBeHitObj.categoryBitMask);
     if (myBeHitObj.categoryBitMask == physicsFrontGround) {
         myHitFrontGround = YES;
         NSLog(@"撞击地面");
@@ -1421,7 +1437,8 @@
         myHitObstacle = YES;
         NSLog(@"撞击障碍");
     }
-
+    
     
 }
 @end
+
