@@ -634,41 +634,119 @@
     myGameCharacter.position = CGPointMake(self.view.frame.size.width*0.2, myGameRegionHeight*0.4 + myGameStartPoint);
     myGameCharacter.zPosition = 3;
     
-    //
+    //碰撞面积（分主题）
     CGFloat offsetX = myGameCharacter.frame.size.width * myGameCharacter.anchorPoint.x;
     CGFloat offsetY = myGameCharacter.frame.size.height * myGameCharacter.anchorPoint.y;
     
-    CGMutablePathRef path = CGPathCreateMutable();
+    if (myCurrentGameTheme == 0) {
+        CGMutablePathRef path = CGPathCreateMutable();
+        
+        CGPathMoveToPoint(path, NULL, 1 - offsetX, 3 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 1 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 6 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 9 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 3 - offsetX, 10 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 5 - offsetX, 12 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 6 - offsetX, 12 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 8 - offsetX, 14 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 12 - offsetX, 14 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 13 - offsetX, 14 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 15 - offsetX, 13 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 16 - offsetX, 11 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 17 - offsetX, 10 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 17 - offsetX, 8 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 17 - offsetX, 7 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 18 - offsetX, 7 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 18 - offsetX, 6 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 18 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 19 - offsetX, 6 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 19 - offsetX, 4 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 18 - offsetX, 3 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 17 - offsetX, 2 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 12 - offsetX, 1 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 11 - offsetX, 1 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 7 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 6 - offsetX, 2 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 2 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 1 - offsetX, 2 - offsetY);
+        
+        CGPathCloseSubpath(path);
+        myGameCharacter.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
+        
     
-    CGPathMoveToPoint(path, NULL, 3 - offsetX, 16 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 19 - offsetX, 24 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 26 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 37 - offsetX, 25 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 20 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 15 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 39 - offsetX, 10 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 38 - offsetX, 6 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 36 - offsetX, 3 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 30 - offsetX, 1 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 21 - offsetX, 0 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 15 - offsetX, 0 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 9 - offsetX, 0 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 5 - offsetX, 0 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 2 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 7 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 1 - offsetX, 11 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 2 - offsetX, 14 - offsetY);
-    CGPathAddLineToPoint(path, NULL, 27 - offsetX, 28 - offsetY);
+    } else if (myCurrentGameTheme == 1) {
+        CGMutablePathRef path = CGPathCreateMutable();
+        
+        CGPathMoveToPoint(path, NULL, 3 - offsetX, 16 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 19 - offsetX, 24 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 38 - offsetX, 26 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 37 - offsetX, 25 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 38 - offsetX, 20 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 38 - offsetX, 15 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 39 - offsetX, 10 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 38 - offsetX, 6 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 36 - offsetX, 3 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 30 - offsetX, 1 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 21 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 15 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 9 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 5 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 2 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 7 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 1 - offsetX, 11 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 14 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 27 - offsetX, 28 - offsetY);
+        
+        CGPathCloseSubpath(path);
+        myGameCharacter.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
+        
+
+    } else if (myCurrentGameTheme == 2) {
+        
+        CGMutablePathRef path = CGPathCreateMutable();
+        
+        CGPathMoveToPoint(path, NULL, 3 - offsetX, 11 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 1 - offsetX, 13 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 0 - offsetX, 17 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 2 - offsetX, 20 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 3 - offsetX, 23 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 5 - offsetX, 24 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 8 - offsetX, 26 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 12 - offsetX, 28 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 16 - offsetX, 27 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 19 - offsetX, 27 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 22 - offsetX, 26 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 23 - offsetX, 26 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 26 - offsetX, 25 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 28 - offsetX, 23 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 30 - offsetX, 21 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 32 - offsetX, 19 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 32 - offsetX, 13 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 29 - offsetX, 11 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 27 - offsetX, 9 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 22 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 19 - offsetX, 4 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 18 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 14 - offsetX, 0 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 12 - offsetX, 5 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 9 - offsetX, 6 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 4 - offsetX, 10 - offsetY);
+        CGPathAddLineToPoint(path, NULL, 1 - offsetX, 13 - offsetY);
+        
+        CGPathCloseSubpath(path);
+        myGameCharacter.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
+        
+    }
     
-    CGPathCloseSubpath(path);
-    
-    myGameCharacter.physicsBody = [SKPhysicsBody bodyWithPolygonFromPath:path];
     myGameCharacter.physicsBody.categoryBitMask = physicsGameCharacter;
     myGameCharacter.physicsBody.collisionBitMask = 0;
     myGameCharacter.physicsBody.contactTestBitMask = physicsObstacle | physicsFrontGround;
-    
     myGameCharacter.name = @"游戏角色";
     [myWorldNode addChild:myGameCharacter];
+    
+    
+
+    
     
 }
 
