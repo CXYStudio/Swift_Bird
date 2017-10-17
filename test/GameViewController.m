@@ -8,11 +8,39 @@
 
 #import "GameViewController.h"
 #import "GameScene.h"
-
+#import "ViewController.h"
+extern BOOL isShouldSkipToAR;
 @implementation GameViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self viewWillLayoutSubviews];
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(skipToAR) name:@"AR" object:nil];
+    
+}
+- (void)skipToAR{
+    NSLog(@"isShouldSkipToAR:%d",isShouldSkipToAR);
+//    [self performSegueWithIdentifier:@"showAR" sender:self];
+    isShouldSkipToAR = NO;
+    
+//    UIViewController * toVC = [[UIViewController alloc] init];
+//
+//    UIStoryboardSegue * segue = [UIStoryboardSegue segueWithIdentifier:@"hello" source:self destination:toVC performHandler:^{
+//        [self presentViewController: toVC animated: YES completion: NULL];
+//    }];
+//
+//    [segue perform];
+    
+    
+    ViewController *arVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"arVC"];
+    
+//    [self presentViewController:arVC animated:YES completion:nil];
+//    [self showViewController:arVC sender:nil];
+//    [self showDetailViewController:arVC sender:self];
+//    [self presentModalViewController:arVC animated:YES];
+    
+    NSLog(@"test");
     
 }
 - (void)viewWillLayoutSubviews{

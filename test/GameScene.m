@@ -11,6 +11,8 @@
 
 #import "GameScene.h"
 #import <Foundation/Foundation.h>
+
+
 //typedef enum _myCoverage{
 //    myBackGround,
 //    myObstacle,
@@ -27,6 +29,7 @@
 
 //};
 
+BOOL isShouldSkipToAR;
 
 @implementation GameScene {
     SKNode *myWorldNode;
@@ -166,8 +169,8 @@
     
 }
 
-
 - (void)didMoveToView:(SKView *)view {
+    isShouldSkipToAR = NO;
     //关闭重力
     self.physicsWorld.gravity = CGVectorMake(0, 0);
     //代理
@@ -822,6 +825,7 @@
         //OK
         SKSpriteNode *myOKBtn = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementButtonLeft];
         myOKBtn.position = CGPointMake(self.size.width*0.3, self.size.height/2 - myScorecard.size.height/2);
+        myOKBtn.name = @"返回按钮";
         myOKBtn.zPosition = 6;
         [myWorldNode addChild:myOKBtn];
         
@@ -831,6 +835,7 @@
         myOKBtnLabel.position = CGPointMake(CGPointZero.x, CGPointZero.y + myClassicalBtn.size.height/4);
         [myOKBtnLabel setVerticalAlignmentMode:SKLabelVerticalAlignmentModeTop];
         myOKBtnLabel.text = NSLocalizedString(@"Back", nil);
+        myOKBtnLabel.name = @"返回按钮";
         myOKBtnLabel.zPosition = 6;
         [myOKBtn addChild:myOKBtnLabel];
         
@@ -1096,7 +1101,10 @@
             break;
         case 4:                 //myDisplayScore
             if (myCurrentGameMode != 1) {
-                [self mySwitchToEndGame];
+//                [self mySwitchToEndGame];
+                if ([node.name isEqualToString:@"返回按钮"]){
+                    [self mySwitchToNewGame];
+                }
                 if ([node.name isEqualToString:@"分享"]) {
                     //分享按钮
 #pragma mark 分享
@@ -1203,6 +1211,8 @@
 - (void)gameARMode{
     myCurrentGameMode = 3;
     NSLog(@"AR模式");
+    isShouldSkipToAR = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AR" object:@"toAR"];
 }
 - (void)gameRankingMode{
     myCurrentGameMode = 4;
