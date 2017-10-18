@@ -1495,10 +1495,13 @@ BOOL isShouldSkipToAR;
 #pragma mark 持久化存储
 //最高分
 - (NSInteger)myBest{
-    return [NSUserDefaults.standardUserDefaults integerForKey:@"最高分"];
+    NSString *tmp = [NSString stringWithFormat:@"%d,最高分",myCurrentGameMode];
+    return [NSUserDefaults.standardUserDefaults integerForKey:tmp];
 }
 - (void)mySetBest:(NSInteger)myBest{
-    [NSUserDefaults.standardUserDefaults setInteger:myBest forKey:@"最高分"];
+    NSString *tmp = [NSString stringWithFormat:@"%d,最高分",myCurrentGameMode];
+    
+    [NSUserDefaults.standardUserDefaults setInteger:myBest forKey:tmp];
     [NSUserDefaults.standardUserDefaults synchronize];
 }
 
