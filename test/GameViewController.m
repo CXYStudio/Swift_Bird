@@ -24,20 +24,14 @@ extern BOOL isShouldSkipToAR;
 //    [self performSegueWithIdentifier:@"showAR" sender:self];
     isShouldSkipToAR = NO;
     
-//    UIViewController * toVC = [[UIViewController alloc] init];
-//
-//    UIStoryboardSegue * segue = [UIStoryboardSegue segueWithIdentifier:@"hello" source:self destination:toVC performHandler:^{
-//        [self presentViewController: toVC animated: YES completion: NULL];
-//    }];
-//
-//    [segue perform];
-    
+
     
     ViewController *arVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"arVC"];
     
-//    [self presentViewController:arVC animated:YES completion:nil];
-//    [self showViewController:arVC sender:nil];
-//    [self showDetailViewController:arVC sender:self];
+    
+
+    [self showViewController:arVC sender:nil];
+
 //    [self presentModalViewController:arVC animated:YES];
     
     NSLog(@"test");

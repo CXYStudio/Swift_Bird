@@ -1,8 +1,8 @@
 //
 //  ViewController.m
-//  TestARKit
+//  testAR
 //
-//  Created by 曹修远 on 07/09/2017.
+//  Created by 曹修远 on 17/10/2017.
 //  Copyright © 2017 曹修远. All rights reserved.
 //
 
@@ -172,13 +172,13 @@ typedef enum : NSUInteger {
     self.sceneView.session = self.arSession;
     
     [self.sceneView.session runWithConfiguration:self.arSessionConfiguration];
-    //添加返回按钮
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"Back" forState:UIControlStateNormal];
-    btn.frame = CGRectMake(self.view.bounds.size.width*0.25, self.view.bounds.size.height-100, 100, 50);
-    btn.backgroundColor = [UIColor grayColor];
-    [btn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+        //添加返回按钮
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setTitle:@"Back" forState:UIControlStateNormal];
+        btn.frame = CGRectMake(self.view.bounds.size.width*0.25, self.view.bounds.size.height-100, 100, 50);
+        btn.backgroundColor = [UIColor grayColor];
+        [btn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:btn];
     //添加重来按钮
     UIButton *btnReset = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnReset setTitle:@"Restart" forState:UIControlStateNormal];
@@ -189,7 +189,7 @@ typedef enum : NSUInteger {
 }
 - (void)back:(UIButton *)btn
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)myReset:(UIButton *)btn
 {
@@ -572,16 +572,17 @@ typedef enum : NSUInteger {
     if ([anchor isMemberOfClass:[ARPlaneAnchor class]]) {
         NSLog(@"捕捉到");
         
-        ARPlaneAnchor *planeAnchor = (ARPlaneAnchor *)anchor;
         
-        SCNBox *planeBox = [SCNBox boxWithWidth:planeAnchor.extent.x*0.2
-                                         height:0
-                                         length:planeAnchor.extent.x*0.2
-                                  chamferRadius:0];
         
-        SCNNode *planeNode = [SCNNode nodeWithGeometry:planeBox];
-        planeNode.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
-        [node addChildNode:planeNode];
+            ARPlaneAnchor *planeAnchor = (ARPlaneAnchor *)anchor;
+            SCNBox *planeBox = [SCNBox boxWithWidth:planeAnchor.extent.x*0.2
+                                             height:0
+                                             length:planeAnchor.extent.x*0.2
+                                      chamferRadius:0];
+        
+            SCNNode *planeNode = [SCNNode nodeWithGeometry:planeBox];
+            planeNode.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
+            [node addChildNode:planeNode];
         
         //添加场景
         

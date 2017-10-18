@@ -16,6 +16,7 @@
 		1E2E079A1F611C8F0052028A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E2E07981F611C8F0052028A /* LaunchScreen.storyboard */; };
 		1E2E07A51F611C8F0052028A /* testTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E07A41F611C8F0052028A /* testTests.m */; };
 		1E2E07B01F611C8F0052028A /* testUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E07AF1F611C8F0052028A /* testUITests.m */; };
+		1E5250011F9787E700B4F5ED /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E5250001F9786C000B4F5ED /* art.scnassets */; };
 		1E59976E1F690FC10077B324 /* coin.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E5997681F690FC10077B324 /* coin.wav */; };
 		1E5997701F690FC10077B324 /* flapping.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E59976A1F690FC10077B324 /* flapping.wav */; };
 		1E5997711F690FC10077B324 /* hitGround.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1E59976B1F690FC10077B324 /* hitGround.wav */; };
@@ -76,6 +77,7 @@
 		1E2E07AB1F611C8F0052028A /* testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2E07AF1F611C8F0052028A /* testUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testUITests.m; sourceTree = "<group>"; };
 		1E2E07B11F611C8F0052028A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E5250001F9786C000B4F5ED /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		1E5997681F690FC10077B324 /* coin.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = coin.wav; sourceTree = "<group>"; };
 		1E59976A1F690FC10077B324 /* flapping.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = flapping.wav; sourceTree = "<group>"; };
 		1E59976B1F690FC10077B324 /* hitGround.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hitGround.wav; sourceTree = "<group>"; };
@@ -90,7 +92,6 @@
 		1EB73D001F73D9DA000791AE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1EB73D021F73D9DC000791AE /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		1EC0065B1F651035005AA17B /* falling.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = falling.wav; sourceTree = "<group>"; };
-		1EC82AEF1F95F54200C7BC7A /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,8 +144,8 @@
 			children = (
 				1EB73CFB1F73D955000791AE /* InfoPlist.strings */,
 				1EB73D011F73D9DA000791AE /* Localizable.strings */,
-				1EC82AEF1F95F54200C7BC7A /* art.scnassets */,
 				1EC0065A1F650FFB005AA17B /* Sounds */,
+				1E5250001F9786C000B4F5ED /* art.scnassets */,
 				1E2E07861F611C8F0052028A /* AppDelegate.h */,
 				1E2E07871F611C8F0052028A /* AppDelegate.m */,
 				1E2E078D1F611C8F0052028A /* GameScene.h */,
@@ -311,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E5997721F690FC10077B324 /* pop.wav in Resources */,
+				1E5250011F9787E700B4F5ED /* art.scnassets in Resources */,
 				1E5997701F690FC10077B324 /* flapping.wav in Resources */,
 				1EB73CFF1F73D9DA000791AE /* Localizable.strings in Resources */,
 				1E59976E1F690FC10077B324 /* coin.wav in Resources */,
