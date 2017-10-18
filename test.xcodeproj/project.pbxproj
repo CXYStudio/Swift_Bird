@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E024F021F9797260064DC0F /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E024F011F9797260064DC0F /* GameKit.framework */; };
 		1E2E07851F611C8F0052028A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E07841F611C8F0052028A /* main.m */; };
 		1E2E07881F611C8F0052028A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E07871F611C8F0052028A /* AppDelegate.m */; };
 		1E2E078F1F611C8F0052028A /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2E078E1F611C8F0052028A /* GameScene.m */; };
@@ -59,6 +60,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E024F011F9797260064DC0F /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		1E2E07801F611C8F0052028A /* test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2E07841F611C8F0052028A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1E2E07861F611C8F0052028A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E024F021F9797260064DC0F /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +122,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E024F001F9797260064DC0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E024F011F9797260064DC0F /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1E2E07771F611C8F0052028A = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +137,7 @@
 				1E2E07A31F611C8F0052028A /* testTests */,
 				1E2E07AE1F611C8F0052028A /* testUITests */,
 				1E2E07811F611C8F0052028A /* Products */,
+				1E024F001F9797260064DC0F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -272,6 +284,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = ZZHCQZ2PG3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 					1E2E079F1F611C8F0052028A = {
 						CreatedOnToolsVersion = 8.3.3;

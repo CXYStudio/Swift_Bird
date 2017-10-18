@@ -11,6 +11,7 @@
 
 #import "GameScene.h"
 #import <Foundation/Foundation.h>
+#import <GameKit/GameKit.h>
 
 
 //typedef enum _myCoverage{
@@ -286,6 +287,8 @@ BOOL isShouldSkipToAR;
     myThemeElementTutorial = @"";
     
     [self mySwitchToMainMenu];
+    
+
     
 }
 
@@ -1070,8 +1073,6 @@ BOOL isShouldSkipToAR;
                 [mailUrl appendString:@"&body="];
                 
                 NSString *emailPath = [mailUrl stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-                
-                
                 
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailPath] options:@{} completionHandler:nil];
                 

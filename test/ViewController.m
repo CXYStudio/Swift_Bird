@@ -574,15 +574,15 @@ typedef enum : NSUInteger {
         
         
         
-            ARPlaneAnchor *planeAnchor = (ARPlaneAnchor *)anchor;
-            SCNBox *planeBox = [SCNBox boxWithWidth:planeAnchor.extent.x*0.2
-                                             height:0
-                                             length:planeAnchor.extent.x*0.2
-                                      chamferRadius:0];
-        
-            SCNNode *planeNode = [SCNNode nodeWithGeometry:planeBox];
-            planeNode.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
-            [node addChildNode:planeNode];
+//            ARPlaneAnchor *planeAnchor = (ARPlaneAnchor *)anchor;
+//            SCNBox *planeBox = [SCNBox boxWithWidth:planeAnchor.extent.x*0.2
+//                                             height:0
+//                                             length:planeAnchor.extent.x*0.2
+//                                      chamferRadius:0];
+//
+//            SCNNode *planeNode = [SCNNode nodeWithGeometry:planeBox];
+//            planeNode.position = SCNVector3Make(planeAnchor.center.x, 0, planeAnchor.center.z);
+//            [node addChildNode:planeNode];
         
         //添加场景
         
