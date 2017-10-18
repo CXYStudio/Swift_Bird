@@ -40,7 +40,7 @@ typedef enum : NSUInteger {
     SCNNode *myCurrentScoreDisplay;     //显示目前分数
     SCNNode *myBestScoreDisplay;        //显示最高分数
     
-    SCNNode *myAudioNode;
+//    SCNNode *myAudioNode;
     
     SCNNode *myAnchorNode;
     
@@ -127,18 +127,17 @@ typedef enum : NSUInteger {
     myCurrentScoreNumber = 0;;
     
     //游戏音效
-#pragma mark 音效加载出现问题
     mySoundFall = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"falling.wav"] waitForCompletion:NO];
+    mySoundFly = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"flapping.wav"] waitForCompletion:NO];
+    mySoundGetPoint = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"coin.wav"] waitForCompletion:NO];
+    mySoundHitFrontGround = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"hitGround.wav"] waitForCompletion:NO];
+    mySoundPop = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"pop.wav"] waitForCompletion:NO];
+    mySoundWhack = [SCNAction playAudioSource:[[SCNAudioSource alloc]initWithFileNamed:@"whack.wav"] waitForCompletion:NO];
     
     //进入教程模式
     [self mySwitchToTutorial];
     
-    
-    
 }
-
-
-
 
 #pragma mark 其他
 - (BOOL)shouldAutorotate
@@ -377,17 +376,14 @@ typedef enum : NSUInteger {
     [mainScene.rootNode addChildNode:stoneTop];
 }
 - (void)myStopGenerateObstacle{
-    
     [stone removeAllActions];
-    //    stone.position = SCNVector3Make(stone.position.x, stone.position.y, stone.position.z);
     
 }
 - (void)myGameCharacterFly{
     if (isFall == NO) {
         myVelocity =SCNVector3Make(0, myFly, 0);
     }
-    
-    
+    [bird runAction:mySoundFly];
 }
 #pragma mark 触摸事件
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -472,6 +468,7 @@ typedef enum : NSUInteger {
     }
     if (bird.position.y <= 0) {
         bird.position = SCNVector3Make(bird.position.x, 0 , bird.position.z);
+        
         [bird removeAllActions];
     }
 }
@@ -486,7 +483,7 @@ typedef enum : NSUInteger {
         myCurrentScoreNumber ++;
         NSLog(@"分数++");
         NSLog(@"myCurrentScoreNumber:%d",myCurrentScoreNumber);
-        
+        [bird runAction:mySoundGetPoint];
         [myCurrentScoreDisplay removeFromParentNode];
         SCNText *myCurrentScoreDisplaySCNText = [SCNText textWithString:[NSString stringWithFormat:@"%d",myCurrentScoreNumber] extrusionDepth:0.05];
         myCurrentScoreDisplaySCNText.firstMaterial.diffuse.contents = [UIColor redColor];
@@ -530,11 +527,14 @@ typedef enum : NSUInteger {
 - (void)mySwitchToFall{
     myCurrentGameState = myFall;
     [bird runAction:[SCNAction moveTo:SCNVector3Make(bird.position.x, 0, bird.position.z) duration:0.5]];
-    [myAudioNode runAction:mySoundFall];
+
+    
+    
     
 }
 - (void)mySwitchToEndGame{
     myCurrentGameState = myEndGame;
+    
     [self mySwitchToNewGame];
 }
 - (void)mySwitchToNewGame{
