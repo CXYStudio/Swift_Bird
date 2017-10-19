@@ -205,7 +205,7 @@ typedef enum : NSUInteger {
     [self.sceneView.session runWithConfiguration:self.arSessionConfiguration];
     //添加返回按钮
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"Back" forState:UIControlStateNormal];
+    [btn setTitle:NSLocalizedString(@"Back", @"AR Mode back button") forState:UIControlStateNormal];
     btn.frame = CGRectMake(self.view.bounds.size.width*0.25-5, self.view.bounds.size.height-100, 100, 50);
     btn.backgroundColor = [UIColor grayColor];
     btn.layer.cornerRadius = 5.0;
@@ -216,7 +216,7 @@ typedef enum : NSUInteger {
     [self.view addSubview:btn];
     //添加重来按钮
     UIButton *btnReset = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnReset setTitle:@"Restart" forState:UIControlStateNormal];
+    [btnReset setTitle:NSLocalizedString(@"Restart", @"AR Mode restart button") forState:UIControlStateNormal];
     btnReset.frame = CGRectMake(self.view.bounds.size.width*0.5+5, self.view.bounds.size.height-100, 100, 50);
     btnReset.backgroundColor = [UIColor grayColor];
     btnReset.layer.cornerRadius = 5.0;
@@ -227,7 +227,7 @@ typedef enum : NSUInteger {
     [self.view addSubview:btnReset];
     //添加提示
     arHint = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.1, self.view.bounds.size.height*0.5, self.view.bounds.size.width*0.8, self.view.bounds.size.height*0.2)];
-    arHint.text = @"请确保光线充足，然后轻微移动手机来确定一个水平面，整洁的平面能加快识别速度。";
+    arHint.text = NSLocalizedString(@"AR Hint", "AR Mode Hint");
     arHint.numberOfLines = 0;
     [arHint setTextAlignment:NSTextAlignmentCenter];
     arHint.backgroundColor = [UIColor whiteColor];
@@ -291,7 +291,7 @@ typedef enum : NSUInteger {
 - (void)mySetTutorial{
     isFall = NO;
     [bird runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
-    myTutorialSCNText = [SCNText textWithString:@"Tap" extrusionDepth:0.005];
+    myTutorialSCNText = [SCNText textWithString:NSLocalizedString(@"AR Tap", "AR Mode Tap Hint") extrusionDepth:0.005];
     myTutorialSCNText.firstMaterial.diffuse.contents = [UIColor yellowColor];
     myTutorialSCNText.font = [UIFont systemFontOfSize:0.08];
     myTutorialSCNTextNode = [SCNNode nodeWithGeometry:myTutorialSCNText];
@@ -323,8 +323,8 @@ typedef enum : NSUInteger {
     [mainScene.rootNode addChildNode:bird];
 }
 - (void)mySetScore{
-    SCNText *myCurrentScoreSCNText = [SCNText textWithString:@"Score:" extrusionDepth:0.05];
-    SCNText *myBestScoreSCNText = [SCNText textWithString:@"Best:" extrusionDepth:0.05];
+    SCNText *myCurrentScoreSCNText = [SCNText textWithString:NSLocalizedString(@"Score:", @"Score:") extrusionDepth:0.05];
+    SCNText *myBestScoreSCNText = [SCNText textWithString:NSLocalizedString(@"Best:", @"Best:") extrusionDepth:0.05];
     myCurrentScoreSCNText.firstMaterial.diffuse.contents = [UIColor redColor];
     myCurrentScoreSCNText.font = [UIFont systemFontOfSize:0.10];
     myBestScoreSCNText.firstMaterial.diffuse.contents = [UIColor redColor];
