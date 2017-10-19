@@ -6,3 +6,6 @@
   Copyright © 2017 曹修远. All rights reserved.
 */
 CFBundleDisplayName = "Swift Bird";
+NSCameraUsageDescription = "This application will use the camera for Augmented Reality.";
+NSPhotoLibraryAdditionsUsageDescription = "We need your permission to save the photo.";
+

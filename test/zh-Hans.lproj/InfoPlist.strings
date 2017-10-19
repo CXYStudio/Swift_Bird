@@ -6,3 +6,5 @@
   Copyright © 2017 曹修远. All rights reserved.
 */
 CFBundleDisplayName = "敏捷的小鸟";
+NSCameraUsageDescription = "此App的AR功能需要相机。";
+NSPhotoLibraryAdditionsUsageDescription = "我们需要你的许可来存储这张图片。";

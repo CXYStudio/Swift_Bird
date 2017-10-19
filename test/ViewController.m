@@ -103,7 +103,7 @@ typedef enum : NSUInteger {
     self.sceneView.delegate = self;
     
     // Show statistics such as fps and timing information
-    self.sceneView.showsStatistics = YES;
+//    self.sceneView.showsStatistics = YES;
     
     //初始化一些关键参数
     //生成障碍延迟时间
