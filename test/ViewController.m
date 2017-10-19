@@ -25,6 +25,8 @@ typedef enum : NSUInteger {
 } CollisionDetectionMask;
 
 @implementation ViewController{
+    UILabel *arHint;
+    
     SCNScene *mainScene;
     SCNScene *birdScene;
     SCNScene *stoneScene;
@@ -137,6 +139,19 @@ typedef enum : NSUInteger {
     //进入教程模式
     [self mySwitchToTutorial];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeHint) name:@"RemoveHint" object:nil];
+    
+}
+#pragma mark AR提示
+- (void)removeHint{
+    
+    [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:NO];
+}
+
+
+- (void)updateUI {
+    // UI更新代码
+    [arHint removeFromSuperview];
 }
 
 #pragma mark - Game center
@@ -188,24 +203,44 @@ typedef enum : NSUInteger {
     self.sceneView.session = self.arSession;
     
     [self.sceneView.session runWithConfiguration:self.arSessionConfiguration];
-        //添加返回按钮
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [btn setTitle:@"Back" forState:UIControlStateNormal];
-        btn.frame = CGRectMake(self.view.bounds.size.width*0.25, self.view.bounds.size.height-100, 100, 50);
-        btn.backgroundColor = [UIColor grayColor];
-        [btn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:btn];
+    //添加返回按钮
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setTitle:@"Back" forState:UIControlStateNormal];
+    btn.frame = CGRectMake(self.view.bounds.size.width*0.25-5, self.view.bounds.size.height-100, 100, 50);
+    btn.backgroundColor = [UIColor grayColor];
+    btn.layer.cornerRadius = 5.0;
+    btn.layer.borderWidth = 3.0;
+    btn.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), (CGFloat[]){1,1,1,1});
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [btn addTarget:self action:@selector(back:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
     //添加重来按钮
     UIButton *btnReset = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnReset setTitle:@"Restart" forState:UIControlStateNormal];
-    btnReset.frame = CGRectMake(self.view.bounds.size.width*0.5, self.view.bounds.size.height-100, 100, 50);
+    btnReset.frame = CGRectMake(self.view.bounds.size.width*0.5+5, self.view.bounds.size.height-100, 100, 50);
     btnReset.backgroundColor = [UIColor grayColor];
+    btnReset.layer.cornerRadius = 5.0;
+    btnReset.layer.borderWidth = 3.0;
+    btnReset.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), (CGFloat[]){1,1,1,1});
+    [btnReset setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     [btnReset addTarget:self action:@selector(myReset:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnReset];
+    //添加提示
+    arHint = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.size.width*0.1, self.view.bounds.size.height*0.5, self.view.bounds.size.width*0.8, self.view.bounds.size.height*0.2)];
+    arHint.text = @"请确保光线充足，然后轻微移动手机来确定一个水平面，整洁的平面能加快识别速度。";
+    arHint.numberOfLines = 0;
+    [arHint setTextAlignment:NSTextAlignmentCenter];
+    arHint.backgroundColor = [UIColor whiteColor];
+    arHint.alpha = 0.8;
+    arHint.layer.cornerRadius = 5.0;
+    arHint.layer.masksToBounds = YES;
+    arHint.layer.borderWidth = 1.0;
+    arHint.layer.borderColor = CGColorCreate(CGColorSpaceCreateDeviceRGB(), (CGFloat[]){1,0,0,1});
+    [self.view addSubview:arHint];
 }
 - (void)back:(UIButton *)btn
 {
-        [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)myReset:(UIButton *)btn
 {
@@ -213,10 +248,7 @@ typedef enum : NSUInteger {
     [stone removeFromParentNode];
     [self viewDidLoad];
     [myAnchorNode addChildNode:mainScene.rootNode];
-    
-#pragma mark test
-    
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -259,9 +291,9 @@ typedef enum : NSUInteger {
 - (void)mySetTutorial{
     isFall = NO;
     [bird runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
-    myTutorialSCNText = [SCNText textWithString:@"Tap" extrusionDepth:0.05];
+    myTutorialSCNText = [SCNText textWithString:@"Tap" extrusionDepth:0.005];
     myTutorialSCNText.firstMaterial.diffuse.contents = [UIColor yellowColor];
-    myTutorialSCNText.font = [UIFont systemFontOfSize:0.15];
+    myTutorialSCNText.font = [UIFont systemFontOfSize:0.08];
     myTutorialSCNTextNode = [SCNNode nodeWithGeometry:myTutorialSCNText];
     myTutorialSCNTextNode.position = SCNVector3Make(0.2, -0.8, 0.2);
     [myTutorialSCNTextNode runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
@@ -279,7 +311,7 @@ typedef enum : NSUInteger {
     ground.physicsBody.collisionBitMask = 0;
     ground.physicsBody.contactTestBitMask = CollisionDetectionMaskBird;
     
-    [mainScene.rootNode runAction:[SCNAction rotateByX:0 y:-1 z:0 duration:0.1]];
+    [mainScene.rootNode runAction:[SCNAction rotateByX:0 y:-1 z:0 duration:0.01]];
 }
 - (void)mySetGameCharacter{
     bird = [birdScene.rootNode childNodeWithName:@"bird" recursively:YES];
@@ -621,7 +653,7 @@ typedef enum : NSUInteger {
         [node addChildNode:mainScene.rootNode];
         
         myAnchorNode = node;
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"RemoveHint" object:nil];
     }
 }
 
