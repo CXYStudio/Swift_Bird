@@ -263,7 +263,7 @@ typedef enum : NSUInteger {
     myTutorialSCNText.firstMaterial.diffuse.contents = [UIColor yellowColor];
     myTutorialSCNText.font = [UIFont systemFontOfSize:0.15];
     myTutorialSCNTextNode = [SCNNode nodeWithGeometry:myTutorialSCNText];
-    myTutorialSCNTextNode.position = SCNVector3Make(-0.3, -0.5, 0.4);
+    myTutorialSCNTextNode.position = SCNVector3Make(0.2, -0.8, 0.2);
     [myTutorialSCNTextNode runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
     [mainScene.rootNode addChildNode:myTutorialSCNTextNode];
 }
@@ -279,7 +279,7 @@ typedef enum : NSUInteger {
     ground.physicsBody.collisionBitMask = 0;
     ground.physicsBody.contactTestBitMask = CollisionDetectionMaskBird;
     
-    
+    [mainScene.rootNode runAction:[SCNAction rotateByX:0 y:-1 z:0 duration:0.1]];
 }
 - (void)mySetGameCharacter{
     bird = [birdScene.rootNode childNodeWithName:@"bird" recursively:YES];
@@ -303,8 +303,8 @@ typedef enum : NSUInteger {
     //    myBestScore.position = SCNVector3Make(-0.5, -0.1,0);
     myCurrentScore.position = SCNVector3Make(-0.5, -0.5,0);
     myBestScore.position = SCNVector3Make(-0.5, -0.65,0);
-    [myCurrentScore runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
-    [myBestScore runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
+//    [myCurrentScore runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
+//    [myBestScore runAction:[SCNAction repeatActionForever:[SCNAction rotateByX:0 y:2 z:0 duration:1]]];
     [mainScene.rootNode addChildNode:myCurrentScore];
     [mainScene.rootNode addChildNode:myBestScore];
     
