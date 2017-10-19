@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <SpriteKit/SpriteKit.h>
-#import <GameplayKit/GameplayKit.h>
+//#import <GameplayKit/GameplayKit.h>
+#import <GameKit/GameKit.h>
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController<GKGameCenterControllerDelegate>
 
 @end

@@ -9,16 +9,42 @@
 #import "GameViewController.h"
 #import "GameScene.h"
 #import "ViewController.h"
+
 extern BOOL isShouldSkipToAR;
-@implementation GameViewController
+extern NSString *leaderboardID;
+@implementation GameViewController{
+    GKGameCenterViewController *gameCenterController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self viewWillLayoutSubviews];
     //
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(skipToAR) name:@"AR" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLeaderboard) name:@"GameCenter" object:nil];
+    
     
 }
+
+- (void) showLeaderboard{
+    
+    gameCenterController = [[GKGameCenterViewController alloc] init];
+    if (gameCenterController != nil)
+    {
+        gameCenterController.gameCenterDelegate = self;
+        gameCenterController.viewState = GKGameCenterViewControllerStateLeaderboards;
+        gameCenterController.leaderboardTimeScope = GKLeaderboardTimeScopeToday;
+        
+        gameCenterController.leaderboardIdentifier = leaderboardID;
+        [self presentViewController: gameCenterController animated: YES completion:nil];
+    }
+}
+- (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+
 - (void)skipToAR{
     NSLog(@"isShouldSkipToAR:%d",isShouldSkipToAR);
 //    [self performSegueWithIdentifier:@"showAR" sender:self];

@@ -11,7 +11,8 @@
 
 #import "GameScene.h"
 #import <Foundation/Foundation.h>
-#import <GameKit/GameKit.h>
+#import "GameViewController.h"
+
 
 
 //typedef enum _myCoverage{
@@ -31,8 +32,9 @@
 //};
 
 BOOL isShouldSkipToAR;
-
+NSString *leaderboardID;
 @implementation GameScene {
+    
     SKNode *myWorldNode;
     CGFloat myGameStartPoint;
     CGFloat myGameRegionHeight;
@@ -287,12 +289,44 @@ BOOL isShouldSkipToAR;
     myThemeElementTutorial = @"";
     
     [self mySwitchToMainMenu];
+    [self authenticateLocalPlayer];
     
-
     
 }
+#pragma mark - Game center
+- (void)authenticateLocalPlayer{
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    localPlayer.authenticateHandler = ^(UIViewController *loginVC,NSError *error){
+        if (loginVC != nil) {
+            UIViewController *gameVC = self.view.window.rootViewController;
+            [gameVC presentViewController:loginVC animated:YES completion:nil];
+        } else {
+            NSLog(@"GKLocalPlayer:%d",GKLocalPlayer.localPlayer.authenticated);
+        }
+        
+    };
+    
+}
+- (void)reportScore:(int)score{
+    if ([GKLocalPlayer localPlayer].authenticated) {
+        GKScore *scoreReporter = [GKScore alloc];
+        if (myCurrentGameMode == 0) {
+            scoreReporter = [[GKScore alloc]initWithLeaderboardIdentifier:@"ClassicModeLeaderboard"];
+        } else if(myCurrentGameMode == 2) {
+            scoreReporter = [[GKScore alloc]initWithLeaderboardIdentifier:@"InsaneModeLeaderboard"];
+        }
+        scoreReporter.value = (int64_t)score;
+        NSArray *scoreArray = [NSArray arrayWithObject:scoreReporter];
+        [GKScore reportScores:scoreArray withCompletionHandler:^(NSError *error){
+            if (error != nil) {
+                NSLog(@"report score error");
+            }
+        }];
+    }
+}
 
-#pragma mark 设置的相关方法
+
+#pragma mark - 设置的相关方法
 //定义主题
 - (void)myDefineTheme{
     myCurrentGameTheme = [self myTheme];
@@ -781,6 +815,7 @@ BOOL isShouldSkipToAR;
     if (myCurrentGameMode == 0 || myCurrentGameMode == 2 ) {
         if (myCurrentScore > [self myBest]) {
             [self mySetBest:myCurrentScore];
+            [self reportScore:myCurrentScore];
         }
         
         myScorecard = [[SKSpriteNode alloc]initWithImageNamed:myThemeElementScorecard];
@@ -1218,6 +1253,19 @@ BOOL isShouldSkipToAR;
 - (void)gameRankingMode{
     myCurrentGameMode = 4;
     NSLog(@"排行");
+    
+    NSString *tmp;
+    if (myCurrentGameMode == 0) {
+        tmp = @"ClassicModeLeaderboard";
+        
+    } else if(myCurrentGameMode == 2) {
+        tmp = @"InsaneModeLeaderboard";
+    }
+//    [self showLeaderboard:tmp];
+    leaderboardID = tmp;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"GameCenter" object:@"toGC"];
+    
+    
 }
 - (void)gameSettingMode{
     myCurrentGameMode = 5;

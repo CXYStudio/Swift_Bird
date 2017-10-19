@@ -139,6 +139,23 @@ typedef enum : NSUInteger {
     
 }
 
+#pragma mark - Game center
+
+- (void)reportScore:(int)score{
+    if ([GKLocalPlayer localPlayer].authenticated) {
+        GKScore *scoreReporter = [GKScore alloc];
+        scoreReporter = [[GKScore alloc]initWithLeaderboardIdentifier:@"ARModeLeaderboard"];
+        scoreReporter.value = (int64_t)score;
+        NSArray *scoreArray = [NSArray arrayWithObject:scoreReporter];
+        [GKScore reportScores:scoreArray withCompletionHandler:^(NSError *error){
+            if (error != nil) {
+                NSLog(@"report score error");
+            
+            }
+        }];
+    }
+}
+
 #pragma mark 其他
 - (BOOL)shouldAutorotate
 {
@@ -496,6 +513,7 @@ typedef enum : NSUInteger {
     
     if (myCurrentScoreNumber > [self myBest]) {
         [self mySetBest:myCurrentScoreNumber];
+        [self reportScore:myCurrentScoreNumber];
         [myBestScoreDisplay removeFromParentNode];
         SCNText *myBestScoreDisplaySCNText = [SCNText textWithString:[NSString stringWithFormat:@"%d",myCurrentScoreNumber] extrusionDepth:0.05];
         myBestScoreDisplaySCNText.firstMaterial.diffuse.contents = [UIColor redColor];
