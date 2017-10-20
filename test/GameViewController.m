@@ -53,8 +53,7 @@ extern NSString *leaderboardID;
 
     
     ViewController *arVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"arVC"];
-    
-    
+    arVC.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 
     [self showViewController:arVC sender:nil];
 

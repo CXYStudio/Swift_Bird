@@ -89,6 +89,8 @@ typedef enum : NSUInteger {
     SCNAction *mySoundHitFrontGround;
     SCNAction *mySoundPop;
     SCNAction *mySoundWhack;
+    
+    BOOL isSetMainScene;
 }
 
 - (void)viewDidLoad {
@@ -141,6 +143,7 @@ typedef enum : NSUInteger {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeHint) name:@"RemoveHint" object:nil];
     
+    isSetMainScene = NO;
 }
 #pragma mark AR提示
 - (void)removeHint{
@@ -151,7 +154,13 @@ typedef enum : NSUInteger {
 
 - (void)updateUI {
     // UI更新代码
-    [arHint removeFromSuperview];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationDelegate:self];
+    arHint.alpha =0.0;
+    [UIView commitAnimations];
+//    [arHint removeFromSuperview];
 }
 
 #pragma mark - Game center
@@ -312,6 +321,7 @@ typedef enum : NSUInteger {
     ground.physicsBody.contactTestBitMask = CollisionDetectionMaskBird;
     
     [mainScene.rootNode runAction:[SCNAction rotateByX:0 y:-1 z:0 duration:0.01]];
+
 }
 - (void)mySetGameCharacter{
     bird = [birdScene.rootNode childNodeWithName:@"bird" recursively:YES];
@@ -650,9 +660,13 @@ typedef enum : NSUInteger {
         //        [node addChildNode:birdNode];
         
         
-        [node addChildNode:mainScene.rootNode];
+        if (isSetMainScene == NO) {
+            myAnchorNode = node;
+            [myAnchorNode addChildNode:mainScene.rootNode];
+            isSetMainScene = YES;
+        }
         
-        myAnchorNode = node;
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"RemoveHint" object:nil];
     }
 }
