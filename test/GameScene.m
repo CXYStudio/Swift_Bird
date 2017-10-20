@@ -231,7 +231,7 @@ NSString *leaderboardID;
     //    [self runAction:[SKAction sequence:@[mySoundFall,mySoundFly,mySoundGetPoint,mySoundHitFrontGround,mySoundPop,mySoundWhack]]];
     
     //顶部分数
-    myTopBlank = 20.0;
+    myTopBlank = 30.0;
     myTopBlankTypeface = @"AmericanTypewriter-Bold";
     myCurrentScore = 0;
     
