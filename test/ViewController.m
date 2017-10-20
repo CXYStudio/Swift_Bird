@@ -320,6 +320,12 @@ typedef enum : NSUInteger {
     ground.physicsBody.collisionBitMask = 0;
     ground.physicsBody.contactTestBitMask = CollisionDetectionMaskBird;
     
+    SCNNode *ambientLightNode = [SCNNode node];
+    ambientLightNode.light = [SCNLight light];
+    ambientLightNode.light.type = SCNLightTypeAmbient;
+    ambientLightNode.light.color = [UIColor darkGrayColor];
+    [mainScene.rootNode addChildNode:ambientLightNode];
+    
     [mainScene.rootNode runAction:[SCNAction rotateByX:0 y:-1 z:0 duration:0.01]];
 
 }
