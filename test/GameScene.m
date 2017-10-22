@@ -1119,13 +1119,13 @@ NSString *leaderboardID;
                 
             }
             if ([node.name isEqualToString:@"设置／网站"]) {
-                NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com/cn/"];
+                NSURL *myWebsite = [NSURL URLWithString:@"http://www.chengdupanda.top"];
                 [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
                     NSLog(@"Open %d",success);
                 }];
             }
             if ([node.name isEqualToString:@"设置／关于"]) {
-                NSURL *myWebsite = [NSURL URLWithString:@"https://www.apple.com"];
+                NSURL *myWebsite = [NSURL URLWithString:@"http://www.chengdupanda.top/people"];
                 [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
                     NSLog(@"Open %d",success);
                 }];
