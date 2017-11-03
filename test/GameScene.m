@@ -1125,7 +1125,7 @@ NSString *leaderboardID;
                 }];
             }
             if ([node.name isEqualToString:@"设置／关于"]) {
-                NSURL *myWebsite = [NSURL URLWithString:@"http://www.chengdupanda.top/people"];
+                NSURL *myWebsite = [NSURL URLWithString:@"http://www.chengdupanda.top/people.html"];
                 [[UIApplication sharedApplication] openURL:myWebsite options:@{} completionHandler:^(BOOL success) {
                     NSLog(@"Open %d",success);
                 }];
