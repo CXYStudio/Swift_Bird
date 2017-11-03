@@ -964,27 +964,52 @@ NSString *leaderboardID;
     //    CGFloat myStartXCoordinate = self.size.width/2;
     CGFloat myStartXCoordinate = self.size.width + myBottom.size.width/2;
     
-    int myRandomValue = arc4random()% 6 + 1; //取随机数
+    
+    //因为iPhone X的屏幕，所以此处为下面的代码
+//    int myRandomValue = arc4random()% 6 + 1; //取随机数
+//    float myCoefficient = 0.0;
+//    switch (myRandomValue) {
+//        case 1:
+//            myCoefficient = 0.2;
+//            break;
+//        case 2:
+//            myCoefficient = 0.25;
+//            break;
+//        case 3:
+//            myCoefficient = 0.3;
+//            break;
+//        case 4:
+//            myCoefficient = 0.4;
+//            break;
+//        case 5:
+//            myCoefficient = 0.5;
+//            break;
+//        case 6:
+//            myCoefficient = 0.6;
+//            break;
+//
+//        default:
+//
+//            break;
+//    }
+    
+    //为iPhone X界面优化后的代码
+    int myRandomValue = arc4random()% 4 + 1; //取随机数
     float myCoefficient = 0.0;
     switch (myRandomValue) {
         case 1:
-            myCoefficient = 0.2;
-            break;
-        case 2:
-            myCoefficient = 0.25;
-            break;
-        case 3:
             myCoefficient = 0.3;
             break;
-        case 4:
+        case 2:
+            myCoefficient = 0.35;
+            break;
+        case 3:
             myCoefficient = 0.4;
             break;
-        case 5:
-            myCoefficient = 0.5;
+        case 4:
+            myCoefficient = 0.45;
             break;
-        case 6:
-            myCoefficient = 0.6;
-            break;
+        
             
         default:
             
