@@ -3,7 +3,7 @@
 本App基于SpriteKit、SceneKit以及ARKit。
 
 
-![](SwiftBirdMain.png"optional title")
+![](SwiftBirdMain.png)
 主界面
-![](SwiftBirdAR.png"optional title")
+![](SwiftBirdAR.png)
 AR模式
